@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Test.Unit.Fakes;
+using BHFGG_ATM.Classes;
 using NUnit.Framework;
 
 namespace ATM.Test.Unit
@@ -11,5 +14,39 @@ namespace ATM.Test.Unit
     public class AtmUnitTest
     {
 
+        [SetUp]
+        public void SetUp()
+        {
+
+        }
+    }
+
+    [TestFixture]
+    public class ConditionCheckerUnitTest
+    {
+        private ConditionChecker uut;
+        private Track fTrack1;
+        private Track fTrack2;
+
+        [SetUp]
+        public void SetUp()
+        {
+            fTrack1 = new Track();
+            fTrack2 = new Track();
+            uut = new ConditionChecker();
+        }
+
+        [TestCase(0, 0, 1, 1, 3.16)]
+        public void GetDistance_ReturnsCorrectDistanceBetweenTwoTracks(double x1, double y1, double x2, double y2, double result)
+        {
+            fTrack1.PositionX = x1;
+            fTrack1.PositionY = y1;
+            fTrack2.PositionX = x2;
+            fTrack2.PositionY = y2;
+
+            Assert.That(uut.GetDistance(fTrack1,fTrack2).Equals(result));
+        }
+
+        
     }
 }
