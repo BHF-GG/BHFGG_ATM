@@ -36,8 +36,13 @@ namespace ATM.Test.Unit
             uut = new ConditionChecker();
         }
 
-        [TestCase(0, 0, 1, 1, 3.16)]
-        public void GetDistance_ReturnsCorrectDistanceBetweenTwoTracks(double x1, double y1, double x2, double y2, double result)
+        [TestCase(0, 0, 300, 100, 316)]
+        [TestCase(300, 100, 0, 0, 316)]
+        [TestCase(-300, -100, 0, 0, 316)]
+        [TestCase(100, 100, 400, -300, 500)]
+        [TestCase(-100, -200, -200, -1000, 806)]
+        [TestCase(50, -40, 50, -40, 0)]
+        public void GetDistance_ReturnsCorrectDistanceBetweenTwoTracks(double x1, double y1, double x2, double y2, int result)
         {
             fTrack1.PositionX = x1;
             fTrack1.PositionY = y1;
@@ -46,7 +51,5 @@ namespace ATM.Test.Unit
 
             Assert.That(uut.GetDistance(fTrack1,fTrack2).Equals(result));
         }
-
-        
     }
 }

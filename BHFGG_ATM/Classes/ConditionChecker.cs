@@ -26,12 +26,16 @@ namespace BHFGG_ATM.Classes
             }
         }
 
-        public double GetDistance(Track t1, Track t2)
+        public int GetDistance(Track t1, Track t2)
         {
             var deltaX = t1.PositionX - t2.PositionX;
             var deltaY = t1.PositionY - t2.PositionY;
 
-            return Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
+            int result = Convert.ToInt32(Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2)));
+
+            if (result < 0)
+                result = result * (-1);
+            return result;
         }
 
         
