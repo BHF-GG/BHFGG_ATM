@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATM.Test.Unit.Interfaces
+namespace BHFGG_ATM.Classes
 {
-    interface ILogCondition
+    abstract class Condition
     {
+
     }
 }

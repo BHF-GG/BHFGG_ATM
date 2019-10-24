@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATM.Test.Unit.Classes
+namespace BHFGG_ATM.Interfaces
 {
-    class Track
+    interface IFilter
     {
     }
 }

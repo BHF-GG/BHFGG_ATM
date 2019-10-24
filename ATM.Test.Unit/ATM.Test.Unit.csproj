@@ -42,22 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AtmUnitTest.cs" />
-    <Compile Include="Classes\AirspaceFilter.cs" />
-    <Compile Include="Classes\Condition.cs" />
-    <Compile Include="Classes\ConditionChecker.cs" />
-    <Compile Include="Classes\Display.cs" />
-    <Compile Include="Classes\DisplaySeperator.cs" />
-    <Compile Include="Classes\LogSeparationCondition.cs" />
-    <Compile Include="Classes\Separation.cs" />
-    <Compile Include="Classes\StringFormatter.cs" />
-    <Compile Include="Classes\Track.cs" />
-    <Compile Include="Classes\TransponderReceiver.cs" />
-    <Compile Include="Interfaces\IConditionChecker.cs" />
-    <Compile Include="Interfaces\IDisplay.cs" />
-    <Compile Include="Interfaces\IFilter.cs" />
-    <Compile Include="Interfaces\ILogCondition.cs" />
-    <Compile Include="Interfaces\IStringFormatter.cs" />
-    <Compile Include="Interfaces\ITransponderReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

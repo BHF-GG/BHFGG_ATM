@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATM.Test.Unit.Interfaces
+namespace BHFGG_ATM.Interfaces
 {
-    interface IConditionChecker
+    interface ITransponderReceiver
     {
     }
 }
