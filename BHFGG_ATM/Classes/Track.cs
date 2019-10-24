@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BHFGG_ATM.Classes
 {
-    class Track
+    public class Track
     {
     }
 }
