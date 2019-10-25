@@ -13,9 +13,10 @@ namespace BHFGG_ATM.Classes
         private List<Condition> _conditions;
         public event EventHandler<ConditionCheckedEventArgs> ConditionsCheckedEvent;
 
-        public ConditionChecker()
+        public ConditionChecker(IFilter filter)
         {
             _conditions = new List<Condition>();
+            filter.DataFilteredEvent += HandleDataFilteredEvent;
         }
 
         public void CheckCondition(List<Track> tracks)
@@ -36,6 +37,16 @@ namespace BHFGG_ATM.Classes
             if (result < 0)
                 result = result * (-1);
             return result;
+        }
+
+        private void OnConditionCheckedEvent(ConditionCheckedEventArgs e)
+        {
+            ConditionsCheckedEvent?.Invoke(this,e);
+        }
+
+        private void HandleDataFilteredEvent(object s, DataFilteredEventArgs e)
+        {
+            CheckCondition(e.DataFiltered);
         }
 
         

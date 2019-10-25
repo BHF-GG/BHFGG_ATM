@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using BHFGG_ATM.Classes;
+using BHFGG_ATM.Interfaces;
 using NUnit.Framework;
 
 namespace ATM.Test.Unit
@@ -32,7 +33,7 @@ namespace ATM.Test.Unit
         {
             fTrack1 = new Track();
             fTrack2 = new Track();
-            uut = new ConditionChecker();
+            uut = new ConditionChecker(new AirspaceFilter(new StringFormatter()));
         }
 
         [TestCase(0, 0, 300, 100, 316)]
