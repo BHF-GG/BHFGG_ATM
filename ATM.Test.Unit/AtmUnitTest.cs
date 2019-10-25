@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Test.Unit.Fakes;
 using BHFGG_ATM.Classes;
 using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
@@ -27,6 +28,7 @@ namespace ATM.Test.Unit
     {
         private ConditionChecker _uut;
         private ConditionCheckedEventArgs _receivedEventArgs;
+        private IFilter FakeFilter;
         private Track _track1;
         private Track _track2;
         private List<Track> _tracks;
@@ -38,8 +40,9 @@ namespace ATM.Test.Unit
             _track1 = new Track();
             _track2 = new Track();
             _tracks = new List<Track>();
+            FakeFilter = new FakeAirspaceFilter();
 
-            //_uut = new ConditionChecker(5000,300,new AirspaceFilter(new StringFormatter()));
+            _uut = new ConditionChecker(5000,300, FakeFilter);
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
