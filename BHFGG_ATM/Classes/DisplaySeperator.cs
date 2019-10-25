@@ -16,7 +16,7 @@ namespace BHFGG_ATM.Classes
         {
             foreach (var track in conditionList)
             {
-                Console.WriteLine($"Condition: {track.Type}          Timestamp: {track.TimeStamp}");
+                Console.WriteLine($"Condition: {track.Type}          Timestamp: {track.Timestamp}");
             }
         }
 

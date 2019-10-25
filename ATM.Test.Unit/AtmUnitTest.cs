@@ -38,7 +38,8 @@ namespace ATM.Test.Unit
             _track1 = new Track();
             _track2 = new Track();
             _tracks = new List<Track>();
-            _uut = new ConditionChecker(5000,300,new AirspaceFilter(new StringFormatter()));
+
+            //_uut = new ConditionChecker(5000,300,new AirspaceFilter(new StringFormatter()));
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
