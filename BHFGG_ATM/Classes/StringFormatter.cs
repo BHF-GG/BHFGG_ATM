@@ -34,9 +34,12 @@ namespace BHFGG_ATM.Classes
 
         #region Event source
 
-        private List<Track> previousListTracks = new List<Track>();
+        private List<Track> _previousListTracks = new List<Track>();
         public event EventHandler<DataFormattedEventArgs> DataFormattedEvent;
-        
+
+        //Spørg Frank til denne del - det er forvirrende.
+        private ICompassCourseCalculator _courseCalculator = new CompassCourseDegreeCalculator();
+        private IVelocityCalculator _velocityCalculator = new VelocityCalculator();
         
 
         public void FormatData(List<string> stringToFormat)
@@ -55,13 +58,13 @@ namespace BHFGG_ATM.Classes
                 track.Altitude = Convert.ToDouble(sArray[3]);
                 track.Timestamp = sArray[4];
 
-                foreach (var pt in previousListTracks)
+                foreach (var pt in _previousListTracks)
                 {
                     if (track.Tag == pt.Tag)
                     {
-                        track.CompassCourse = new CompassCourseDegreeCalculator().CalculateCompassCourse(
+                        track.CompassCourse = _courseCalculator.CalculateCompassCourse(
                             pt.PositionX,pt.PositionY,track.PositionX,track.PositionY);
-                        track.HorizontalVelocity = new VelocityCalculator().CalculateCurrentVelocity(
+                        track.HorizontalVelocity = _velocityCalculator.CalculateCurrentVelocity(
                             pt.PositionX, pt.PositionY, track.PositionX, track.PositionY,pt.Timestamp,track.Timestamp);
                     }
                 }
@@ -69,7 +72,7 @@ namespace BHFGG_ATM.Classes
                 newListOfTrack.Add(track);
             }
 
-            previousListTracks = newListOfTrack;
+            _previousListTracks = newListOfTrack;
             OnDataFormattedEvent(new DataFormattedEventArgs { DataFormatted = newListOfTrack});
         }
 

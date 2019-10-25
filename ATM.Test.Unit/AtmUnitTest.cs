@@ -226,4 +226,24 @@ namespace ATM.Test.Unit
         //}
     }
 
+    #region Frands' test
+
+    [TestFixture]
+    public class StringFormatterUnitTest
+    {
+        private StringFormatter _uut;
+
+
+        [SetUp]
+        public void SetUp()
+        {
+
+        }
+    }
+
+    #endregion
+
+
+
+
 }
