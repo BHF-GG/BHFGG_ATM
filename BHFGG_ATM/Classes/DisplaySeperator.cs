@@ -3,21 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
 
 namespace BHFGG_ATM.Classes
 {
     public class DisplaySeparator : Display
     {
+        private List<Condition> ListOfConditionsToDisplay;
 
         public override void DisplayConditions(List<Condition> conditionList)
         {
-            
+            foreach (var track in conditionList)
+            {
+                Console.WriteLine($"Condition: {track.Type}          Timestamp: {track.TimeStamp}");
+            }
         }
 
-        //public override void DisplayTracks(List<Track> trackList)
-        //{
-            
-        //}
+        public DisplaySeparator(IFilter filteredData, IConditionChecker conditionData)
+            :  base(filteredData)
+        {
+            conditionData.ConditionsCheckedEvent += HandleConditionCheckedEvent;
+        }
+
+        private void HandleConditionCheckedEvent(object sender, ConditionCheckedEventArgs e)
+        {
+            //Handle message/event from conditionchecked
+            ListOfConditionsToDisplay = e.ConditionsChecked;
+            DisplayConditions(ListOfConditionsToDisplay);
+        }
     }
 }

@@ -135,4 +135,7 @@ namespace ATM.Test.Unit
             Assert.That(_uut.GetDistance(_track1,_track2).Equals(result));
         }
     }
+
+    [TestFixture]
+
 }
