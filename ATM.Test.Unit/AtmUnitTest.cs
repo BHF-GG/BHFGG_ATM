@@ -33,7 +33,7 @@ namespace ATM.Test.Unit
         {
             fTrack1 = new Track();
             fTrack2 = new Track();
-            uut = new ConditionChecker(new AirspaceFilter(new StringFormatter()));
+            uut = new ConditionChecker(5000,300,new AirspaceFilter(new StringFormatter()));
         }
 
         [TestCase(0, 0, 300, 100, 316)]
