@@ -10,7 +10,7 @@ namespace BHFGG_ATM.Classes
     
     public class Separation : Condition
     {
-        public string TimeStamp { get; private set; }
+        
         public string Tag1 { get; private set; }
         public string Tag2 { get; private set; }
         
