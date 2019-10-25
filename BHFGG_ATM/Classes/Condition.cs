@@ -10,7 +10,7 @@ namespace BHFGG_ATM.Classes
     public abstract class Condition
     {
         public string Type { get; protected set; }
-        public string TimeStamp { get; private set; }
+        public string Timestamp { get; private set; }
         protected ILogCondition LogCondition;
         protected virtual void LogOnConstruction()
         {
