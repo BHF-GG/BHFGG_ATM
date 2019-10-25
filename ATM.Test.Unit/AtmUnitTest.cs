@@ -10,6 +10,7 @@ using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using TransponderReceiver;
 
 namespace ATM.Test.Unit
 {
@@ -231,14 +232,53 @@ namespace ATM.Test.Unit
     [TestFixture]
     public class StringFormatterUnitTest
     {
+        private ITransponderReceiver _fakeTransponderReceiver;
+        private ICompassCourseCalculator _fakeCompassCourseCalculator;
+        private IVelocityCalculator _fakeVelocityCalculator;
+
         private StringFormatter _uut;
 
 
         [SetUp]
         public void SetUp()
         {
+            // Make a fake Transponder Data Receiver
+            _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
+            _fakeCompassCourseCalculator = Substitute.For<ICompassCourseCalculator>();
+            _fakeVelocityCalculator = Substitute.For<IVelocityCalculator>();
 
+            // Inject the fake StringFormatter
+            _uut = new StringFormatter(_fakeTransponderReceiver,_fakeCompassCourseCalculator,_fakeVelocityCalculator);
         }
+
+        [Test]
+        public void HandleTransponderDataEvent_EventReceived_OK()
+        {
+            // Setup test data
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            // Act: Trigger the fake object to execute event invocation
+            _fakeTransponderReceiver.TransponderDataReady
+                += Raise.EventWith(this, new RawTransponderDataEventArgs(testData));
+
+            // Assert something here or use an NSubstitute Received
+            Assert.That(_uut.CurrentTransponderData,Is.EqualTo(testData));
+        }
+
+        //public void FormatData_EventRaised_OK()
+        //{
+        //    //Use setup from different scenario
+        //    HandleTransponderDataEvent_EventReceived_OK();
+
+        //    // Act: 
+        //    // Assert something here or use an NSubstitute Received
+        //    Assert.That(_uut.CurrentTransponderData, Is.EqualTo(testData));
+        //}
+
+
     }
 
     #endregion
