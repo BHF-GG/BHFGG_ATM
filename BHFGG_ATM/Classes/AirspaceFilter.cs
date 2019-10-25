@@ -10,10 +10,7 @@ namespace BHFGG_ATM.Classes
 {
     public class AirspaceFilter : IFilter
     {
-        //Necessary attributes/properties here
-
         #region Attributes and Properties
-
         public List<Track> CurrentListOfTracks { get; set; }
 
         private double LowerBoundary = 500;
@@ -22,18 +19,19 @@ namespace BHFGG_ATM.Classes
         private double SouthBoundary = 90000;
         private double EastBoundary = 10000;
         private double WestBoundary = 90000;
-
         #endregion
 
-        public AirspaceFilter(IStringFormatter stringFormatter)
+        #region Constructor and methods for class
+        public AirspaceFilter(IStringFormatter stringFormatter) //Could add all boundaries as parameters, if you wish to be able to change the airspace area
         {
             stringFormatter.DataFormattedEvent += HandleDataFormattedEvent;
         }
 
-        public event EventHandler<DataFilteredEventArgs> DataFilteredEvent;
 
         public void FilterData(List<Track> trackList)
         {
+            //Make an empty current list here??????
+            CurrentListOfTracks.Clear();
             //Filtering data here
             foreach (var track in trackList)
             {
@@ -46,7 +44,10 @@ namespace BHFGG_ATM.Classes
             }
             OnDataFilteredEvent(new DataFilteredEventArgs { DataFiltered = CurrentListOfTracks });
         }
+        #endregion
 
+        #region Event necessities
+        public event EventHandler<DataFilteredEventArgs> DataFilteredEvent;
 
         protected virtual void OnDataFilteredEvent(DataFilteredEventArgs e)
         {
@@ -59,5 +60,6 @@ namespace BHFGG_ATM.Classes
             //CurrentListOfTracks = e.DataFormatted;
             FilterData(e.DataFormatted);
         }
+        #endregion
     }
 }
