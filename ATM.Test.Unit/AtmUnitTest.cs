@@ -44,7 +44,9 @@ namespace ATM.Test.Unit
             //_testFilterSource = Substitute.For<IFilter>();
             _receivedEventArgs = null;
             _track1 = new Track();
+            _track1.Tag = "1";
             _track2 = new Track();
+            _track2.Tag = "2";
             _tracks = new List<Track>();
 
             _uut = new ConditionChecker(5000,300, _fakeFilter);
@@ -70,26 +72,36 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
-        /*
-        [TestCase(400, 500, 10000, 10001, 10000, 10001,1)]
-        [TestCase(500, 900, 10000, 10001, 10000, 10001, 0)]
-        [TestCase(500, 500, 10000, 90000, 10000, 10001, 0)]
+        
+        [TestCase(400, 500, 10000, 10001, 10000, 10001,3)]
+        [TestCase(500, 900, 10000, 10001, 10000, 10001, 1)]
+        [TestCase(500, 500, 10000, 90000, 10000, 10001, 1)]
         public void CheckCondition_CorrectAmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int amountOfConditions)
         {
+            Track _track3 = new Track();
+            Track _track4 = new Track();
+            _track3.Tag = "3";
             _track1.Altitude = A1;
-            _track2.Altitude = A2;
             _track1.PositionX = x1;
             _track1.PositionY = y1;
+            _track2.Altitude = A2;
             _track2.PositionX = x2;
             _track2.PositionY = y2;
+            _track3.Altitude = A2;
+            _track3.PositionX = x2;
+            _track3.PositionY = y2;
+            //_track4.Altitude = A2;
+            //_track4.PositionX = x2;
+            //_track4.PositionY = y2;
 
             _tracks.Add(_track1);
             _tracks.Add(_track2);
+            _tracks.Add(_track3);
+            //_tracks.Add(_track4);
 
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs.ConditionsChecked.Count, Is.EqualTo(amountOfConditions));
         }
-        */
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
         public void CheckCondition_CorrectConditionGenerated(double A1, double A2, double x1, double x2, double y1, double y2)
