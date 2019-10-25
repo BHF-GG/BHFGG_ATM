@@ -8,6 +8,7 @@ using ATM.Test.Unit.Fakes;
 using BHFGG_ATM.Classes;
 using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace ATM.Test.Unit
@@ -40,7 +41,7 @@ namespace ATM.Test.Unit
             _track1 = new Track();
             _track2 = new Track();
             _tracks = new List<Track>();
-            FakeFilter = new FakeAirspaceFilter();
+            FakeFilter = Substitute.For<IFilter>();
 
             _uut = new ConditionChecker(5000,300, FakeFilter);
 
@@ -120,8 +121,6 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
 
             Separation separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
-
-
             Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
             Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
         }
@@ -141,6 +140,27 @@ namespace ATM.Test.Unit
             _track2.PositionY = y2;
 
             Assert.That(_uut.GetDistance(_track1,_track2).Equals(result));
+        }
+
+        [TestCase(400, 500, 10000, 10001, 10000, 10001)]
+        public void DataFilteredEvent_Received(double A1, double A2, double x1, double x2, double y1, double y2)
+        {
+            _track1.Tag = "Track1";
+            _track2.Tag = "Track2";
+            _track1.Altitude = A1;
+            _track2.Altitude = A2;
+            _track1.PositionX = x1;
+            _track1.PositionY = y1;
+            _track2.PositionX = x2;
+            _track2.PositionY = y2;
+
+            _tracks.Add(_track1);
+            _tracks.Add(_track2);
+            
+            FakeFilter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs {DataFiltered = _tracks});
+            Separation separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
+            Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
+            Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
         }
 
     }
