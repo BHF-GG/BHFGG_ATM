@@ -9,6 +9,6 @@ namespace BHFGG_ATM.EventArgClasses
 {
     public class ConditionCheckedEventArgs : EventArgs
     {
-        public List<Track> ConditionsChecked { get; set; }
+        public List<Condition> ConditionsChecked { get; set; }
     }
 }

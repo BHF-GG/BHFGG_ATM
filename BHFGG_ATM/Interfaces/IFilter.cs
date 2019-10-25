@@ -8,7 +8,7 @@ using BHFGG_ATM.EventArgClasses;
 
 namespace BHFGG_ATM.Interfaces
 {
-    interface IFilter
+    public interface IFilter
     {
         void FilterData(List<Track> trackList);
         event EventHandler<DataFilteredEventArgs> DataFilteredEvent;

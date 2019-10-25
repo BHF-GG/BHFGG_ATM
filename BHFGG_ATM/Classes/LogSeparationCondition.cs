@@ -8,7 +8,16 @@ using BHFGG_ATM.Interfaces;
 
 namespace BHFGG_ATM.Classes
 {
-    class LogSeparationCondition : ILogCondition
+    public class LogSeparationCondition : ILogCondition
     {
+        public void LogCondition(Condition c)
+        {
+            // Write Data to file.
+        }
+
+        public void LogEndCondition(Condition c)
+        {
+            // Write Data to file
+        }
     }
 }
