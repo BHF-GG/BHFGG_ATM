@@ -31,7 +31,7 @@ namespace BHFGG_ATM.Classes
         public void FilterData(List<Track> trackList)
         {
             //Make an empty current list here??????
-            CurrentListOfTracks.Clear();
+            //CurrentListOfTracks.Clear();
             //Filtering data here
             foreach (var track in trackList)
             {

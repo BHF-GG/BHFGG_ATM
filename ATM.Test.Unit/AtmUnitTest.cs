@@ -174,25 +174,57 @@ namespace ATM.Test.Unit
     [TestFixture]
     public class FilteredDataUnitTest
     {
-
-        private AirspaceFilter _uut;
         private DataFilteredEventArgs _receivedEventArgs;
+        private AirspaceFilter _uut;
+
+        private IStringFormatter _fakeFormatter;
+        
+        private int EventCount;
         private Track _track1;
         private Track _track2;
-        private List<Track> _tracks;
-
+        private List<Track> _tracklist;
+        
         [SetUp]
         public void SetUp()
         { 
             _receivedEventArgs = null;
+            EventCount = 0;
+
             _track1 = new Track();
             _track2 = new Track();
-            _tracks = new List<Track>();
-            //_uut = new AirspaceFilter();
+            _tracklist = new List<Track>();
 
-        //    _uut.ConditionsCheckedEvent +=
-        //        (o, args) => { _receivedEventArgs = args; };
+            //Making fakes (Stubs and mocks)
+            _fakeFormatter = Substitute.For<IStringFormatter>();
+            _uut = new AirspaceFilter(_fakeFormatter);
+            
+            //Fake Event Handler
+            _uut.DataFilteredEvent += (o, args) => 
+            { 
+                _receivedEventArgs = args;
+                EventCount++;
+            };
         }
+
+        [Test]
+        public void FilteredData_HandleEvent_EventReceived()
+        {
+            _track1.PositionX = 50000;
+            _track1.PositionY = 50000;
+
+            _tracklist.Add(_track1);
+
+            //_uut.FilterData(_tracklist);
+            _uut.FilterData(_tracklist);
+            Assert.That(_receivedEventArgs, Is.Not.Null);
+        }
+
+        //[Test]
+        //public void FilteredData_FourTracksAddedTwoFiltered_TwoTracksInTracklist()
+        //{
+        //    //Test for filtering data
+
+        //}
     }
 
     #region Frands' test
