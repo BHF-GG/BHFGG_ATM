@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AirspaceFilter.cs" />
+    <Compile Include="Classes\CompassCourseDegreeCalculator.cs" />
     <Compile Include="Classes\Condition.cs" />
     <Compile Include="Classes\ConditionChecker.cs" />
     <Compile Include="Classes\Display.cs" />
@@ -65,12 +66,15 @@
     <Compile Include="EventArgClasses\ConditionCheckedEventArgs.cs" />
     <Compile Include="EventArgClasses\DataFilteredEventArgs.cs" />
     <Compile Include="EventArgClasses\DataFormattedEventArgs.cs" />
+    <Compile Include="Interfaces\ICompassCourseCalculator.cs" />
     <Compile Include="Interfaces\IConditionChecker.cs" />
     <Compile Include="Interfaces\IDisplay.cs" />
     <Compile Include="Interfaces\IFilter.cs" />
     <Compile Include="Interfaces\ILogCondition.cs" />
     <Compile Include="Interfaces\IStringFormatter.cs" />
     <Compile Include="Interfaces\ITransponderReceiver.cs" />
+    <Compile Include="Interfaces\IVelocityCalculator.cs" />
+    <Compile Include="Classes\VelocityCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
