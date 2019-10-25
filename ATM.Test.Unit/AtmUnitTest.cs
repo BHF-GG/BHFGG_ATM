@@ -38,7 +38,8 @@ namespace ATM.Test.Unit
             _track1 = new Track();
             _track2 = new Track();
             _tracks = new List<Track>();
-            _uut = new ConditionChecker(5000,300,new AirspaceFilter(new StringFormatter()));
+
+            //_uut = new ConditionChecker(5000,300,new AirspaceFilter(new StringFormatter()));
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
@@ -139,5 +140,27 @@ namespace ATM.Test.Unit
     }
 
     [TestFixture]
+    public class FilteredDataUnitTest
+    {
+
+        //private AirspaceFilter _uut;
+        //private DataFilteredEventArgs _receivedEventArgs;
+        //private Track _track1;
+        //private Track _track2;
+        //private List<Track> _tracks;
+
+        //[SetUp]
+        //public void SetUp()
+        //{
+        //    _receivedEventArgs = null;
+        //    _track1 = new Track();
+        //    _track2 = new Track();
+        //    _tracks = new List<Track>();
+        //    _uut = new ConditionChecker(5000, 300, new AirspaceFilter(new StringFormatter()));
+
+        //    _uut.ConditionsCheckedEvent +=
+        //        (o, args) => { _receivedEventArgs = args; };
+        //}
+    }
 
 }
