@@ -9,7 +9,7 @@ namespace BHFGG_ATM.Classes
 {
     public class CompassCourseDegreeCalculator : ICompassCourseCalculator
     {
-        public double CalculateCompassCourse(int oldPointX, int oldPointY, int newPointX, int newPointY)
+        public double CalculateCompassCourse(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
             double dx = oldPointX - newPointX;
             double dy = oldPointY - newPointY;

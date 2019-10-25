@@ -5,7 +5,7 @@ namespace BHFGG_ATM.Classes
 {
     public class VelocityCalculator : IVelocityCalculator
     {
-        public double CalculateCurrentVelocity(int oldPointX, int oldPointY, int newPointX, int newPointY,
+        public double CalculateCurrentVelocity(double oldPointX, double oldPointY, double newPointX, double newPointY,
             string oldTimestamp, string newTimestamp)
         {
             //Er ikke sikker på afstanden bliver i meter her.
