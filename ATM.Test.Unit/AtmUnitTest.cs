@@ -12,6 +12,7 @@ using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using TransponderReceiver;
 
 namespace ATM.Test.Unit
 {
@@ -197,6 +198,9 @@ namespace ATM.Test.Unit
         private int EventCount;
         private Track _track1;
         private Track _track2;
+        private Track _track3;
+        private Track _track4;
+
         private List<Track> _tracklist;
         
         [SetUp]
@@ -207,6 +211,8 @@ namespace ATM.Test.Unit
 
             _track1 = new Track();
             _track2 = new Track();
+            _track3 = new Track();
+            _track4 = new Track();
             _tracklist = new List<Track>();
 
             //Making fakes (Stubs and mocks)
@@ -234,10 +240,32 @@ namespace ATM.Test.Unit
         }
 
         //[Test]
-        //public void FilteredData_FourTracksAddedTwoFiltered_TwoTracksInTracklist()
+        //public void FilteredData_FourTracksAdded_TwoTracksFiltered()
         //{
-        //    //Test for filtering data
+        //    _track1.PositionX = 50000;
+        //    _track1.PositionY = 50000;
+        //    _track1.Altitude = 1000;
 
+        //    _track2.PositionX = 50000;
+        //    _track2.PositionY = 50000;
+        //    _track2.Altitude = 1000;
+
+        //    _track3.PositionX = 100;
+        //    _track3.PositionY = 9000;
+        //    _track3.Altitude = 100;
+
+        //    _track4.PositionX = 100;
+        //    _track4.PositionY = 9000;
+        //    _track4.Altitude = 100;
+
+        //    _tracklist.Add(_track1);
+        //    _tracklist.Add(_track2);
+        //    _tracklist.Add(_track3);
+        //    _tracklist.Add(_track4);
+
+        //    _uut.FilterData(_tracklist);
+
+        //    Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
         //}
     }
 
@@ -246,14 +274,53 @@ namespace ATM.Test.Unit
     [TestFixture]
     public class StringFormatterUnitTest
     {
+        private ITransponderReceiver _fakeTransponderReceiver;
+        private ICompassCourseCalculator _fakeCompassCourseCalculator;
+        private IVelocityCalculator _fakeVelocityCalculator;
+
         private StringFormatter _uut;
 
 
         [SetUp]
         public void SetUp()
         {
+            // Make a fake Transponder Data Receiver
+            _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
+            _fakeCompassCourseCalculator = Substitute.For<ICompassCourseCalculator>();
+            _fakeVelocityCalculator = Substitute.For<IVelocityCalculator>();
 
+            // Inject the fake StringFormatter
+            _uut = new StringFormatter(_fakeTransponderReceiver,_fakeCompassCourseCalculator,_fakeVelocityCalculator);
         }
+
+        [Test]
+        public void HandleTransponderDataEvent_EventReceived_OK()
+        {
+            // Setup test data
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            // Act: Trigger the fake object to execute event invocation
+            _fakeTransponderReceiver.TransponderDataReady
+                += Raise.EventWith(this, new RawTransponderDataEventArgs(testData));
+
+            // Assert something here or use an NSubstitute Received
+            Assert.That(_uut.CurrentTransponderData,Is.EqualTo(testData));
+        }
+
+        //public void FormatData_EventRaised_OK()
+        //{
+        //    //Use setup from different scenario
+        //    HandleTransponderDataEvent_EventReceived_OK();
+
+        //    // Act: 
+        //    // Assert something here or use an NSubstitute Received
+        //    Assert.That(_uut.CurrentTransponderData, Is.EqualTo(testData));
+        //}
+
+
     }
 
     #endregion

@@ -18,9 +18,18 @@ namespace BHFGG_ATM.Classes
 
         public List<string> CurrentTransponderData { get; set; }
 
-        public StringFormatter(ITransponderReceiver transponderReceiver)
-        {
+        private ITransponderReceiver _receiver;
+        private ICompassCourseCalculator _courseCalculator;
+        private IVelocityCalculator _velocityCalculator;
+
+
+        public StringFormatter(ITransponderReceiver transponderReceiver,ICompassCourseCalculator courseCalculator, IVelocityCalculator velocityCalculator)
+        { 
+            _receiver = transponderReceiver;
             transponderReceiver.TransponderDataReady += HandleTransponderDataEvent;
+                
+            _courseCalculator = courseCalculator;
+            _velocityCalculator = velocityCalculator;
         }
 
         private void HandleTransponderDataEvent(object sender, RawTransponderDataEventArgs e)
@@ -38,8 +47,6 @@ namespace BHFGG_ATM.Classes
         public event EventHandler<DataFormattedEventArgs> DataFormattedEvent;
 
         //Spørg Frank til denne del - det er forvirrende.
-        private ICompassCourseCalculator _courseCalculator = new CompassCourseDegreeCalculator();
-        private IVelocityCalculator _velocityCalculator = new VelocityCalculator();
         
 
         public void FormatData(List<string> stringToFormat)
