@@ -103,6 +103,7 @@ namespace ATM.Test.Unit
             _tracks.Add(_track2);
 
             _uut.CheckCondition(_tracks);
+
             Assert.That(_receivedEventArgs.ConditionsChecked.ElementAt(0).Type, Is.EqualTo("Separation"));
         }
 
