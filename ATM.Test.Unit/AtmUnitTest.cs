@@ -68,7 +68,7 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
-
+        /*
         [TestCase(400, 500, 10000, 10001, 10000, 10001,1)]
         [TestCase(500, 900, 10000, 10001, 10000, 10001, 0)]
         [TestCase(500, 500, 10000, 90000, 10000, 10001, 0)]
@@ -87,6 +87,7 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs.ConditionsChecked.Count, Is.EqualTo(amountOfConditions));
         }
+        */
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
         public void CheckCondition_CorrectConditionGenerated(double A1, double A2, double x1, double x2, double y1, double y2)
