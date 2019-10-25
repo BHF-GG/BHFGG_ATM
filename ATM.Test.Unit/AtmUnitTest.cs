@@ -67,7 +67,9 @@ namespace ATM.Test.Unit
         }
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001,1)]
-        public void CheckCondition_CorrectAmmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int AmmountOfConditions)
+        [TestCase(500, 900, 10000, 10001, 10000, 10001, 0)]
+        [TestCase(500, 500, 10000, 90000, 10000, 10001, 0)]
+        public void CheckCondition_CorrectAmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int AmountOfConditions)
         {
             _track1.Altitude = A1;
             _track2.Altitude = A2;
@@ -80,7 +82,7 @@ namespace ATM.Test.Unit
             _tracks.Add(_track2);
 
             _uut.CheckCondition(_tracks);
-            Assert.That(_receivedEventArgs.ConditionsChecked.Count, Is.EqualTo(AmmountOfConditions));
+            Assert.That(_receivedEventArgs.ConditionsChecked.Count, Is.EqualTo(AmountOfConditions));
         }
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
@@ -140,6 +142,7 @@ namespace ATM.Test.Unit
 
             Assert.That(_uut.GetDistance(_track1,_track2).Equals(result));
         }
+
     }
 
     [TestFixture]
