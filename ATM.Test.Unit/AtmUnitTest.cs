@@ -114,6 +114,8 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
 
             Separation separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
+
+
             Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
             Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
         }
