@@ -27,12 +27,21 @@ namespace BHFGG_ATM.Classes
         public void CheckCondition(List<Track> tracks)
         {
             _conditions = new List<Condition>();
+            var validCondition = true;
             foreach (var track in tracks)
             {
-                for (int i = 0; i < tracks.Count; i++)
+                foreach (var t in tracks.Where(t => !DistanceOk(track, t) && track != t))
                 {
-                   if (!DistanceOk(track, tracks[i]) && track != tracks[i])
-                       _conditions.Add(new Separation(track, tracks[i],new LogSeparationCondition()));
+                    foreach (var separation in _conditions.Where(condition => condition.Type == "Separation")
+                        .Select(condition => (Separation) condition).Where(separation => 
+                            ((separation.Tag1 == track.Tag || separation.Tag2 == track.Tag) &&
+                             (separation.Tag1 == t.Tag || separation.Tag2 == t.Tag))))
+                    {
+                        validCondition = false;
+                    }
+
+                    if (validCondition)
+                        _conditions.Add(new Separation(track, t, new LogSeparationCondition()));
                 }
             }
             OnConditionCheckedEvent(new ConditionCheckedEventArgs{ConditionsChecked = _conditions});
