@@ -9,11 +9,13 @@ using BHFGG_ATM.Interfaces;
 
 namespace ATM.Test.Unit.Fakes
 {
-    public class FakeAirspaceFilter: IFilter
+    internal class FakeFilter: IFilter
     {
         public void FilterData(List<Track> trackList)
         {
-            
+            DataFilteredEvent?.Invoke(
+                this,
+                new DataFilteredEventArgs() {DataFiltered = trackList});
         }
 
         public event EventHandler<DataFilteredEventArgs> DataFilteredEvent;

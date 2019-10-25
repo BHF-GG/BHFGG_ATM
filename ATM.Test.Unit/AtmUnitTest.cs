@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,21 +32,23 @@ namespace ATM.Test.Unit
     {
         private ConditionChecker _uut;
         private ConditionCheckedEventArgs _receivedEventArgs;
-        private IFilter FakeFilter;
         private Track _track1;
         private Track _track2;
         private List<Track> _tracks;
+        //private IFilter _testFilterSource;
+        private readonly IFilter _fakeFilter = new FakeFilter();
+
 
         [SetUp]
         public void SetUp()
         {
+            //_testFilterSource = Substitute.For<IFilter>();
             _receivedEventArgs = null;
             _track1 = new Track();
             _track2 = new Track();
             _tracks = new List<Track>();
-            FakeFilter = new FakeAirspaceFilter();
 
-            _uut = new ConditionChecker(5000,300, FakeFilter);
+            _uut = new ConditionChecker(5000,300, _fakeFilter);
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
@@ -67,7 +71,7 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
-
+        /*
         [TestCase(400, 500, 10000, 10001, 10000, 10001,1)]
         [TestCase(500, 900, 10000, 10001, 10000, 10001, 0)]
         [TestCase(500, 500, 10000, 90000, 10000, 10001, 0)]
@@ -86,6 +90,7 @@ namespace ATM.Test.Unit
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs.ConditionsChecked.Count, Is.EqualTo(amountOfConditions));
         }
+        */
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
         public void CheckCondition_CorrectConditionGenerated(double A1, double A2, double x1, double x2, double y1, double y2)
@@ -101,6 +106,7 @@ namespace ATM.Test.Unit
             _tracks.Add(_track2);
 
             _uut.CheckCondition(_tracks);
+
             Assert.That(_receivedEventArgs.ConditionsChecked.ElementAt(0).Type, Is.EqualTo("Separation"));
         }
 
@@ -121,7 +127,7 @@ namespace ATM.Test.Unit
 
             _uut.CheckCondition(_tracks);
 
-            Separation separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
+            var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
             Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
             Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
         }
@@ -143,15 +149,11 @@ namespace ATM.Test.Unit
             Assert.That(_uut.GetDistance(_track1,_track2).Equals(result));
         }
 
+        
+
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
         public void DataFilteredEvent_Received(double A1, double A2, double x1, double x2, double y1, double y2)
         {
-            FakeFilter = Substitute.For<IFilter>();
-            _uut = new ConditionChecker(5000, 300, FakeFilter);
-
-            _uut.ConditionsCheckedEvent +=
-                (o, args) => { _receivedEventArgs = args; };
-
             _track1.Tag = "Track1";
             _track2.Tag = "Track2";
             _track1.Altitude = A1;
@@ -163,9 +165,10 @@ namespace ATM.Test.Unit
 
             _tracks.Add(_track1);
             _tracks.Add(_track2);
-            
-            FakeFilter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs {DataFiltered = _tracks});
-            Separation separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
+
+            _fakeFilter.FilterData(_tracks);
+
+            var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
             Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
             Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
         }
@@ -183,6 +186,9 @@ namespace ATM.Test.Unit
         private int EventCount;
         private Track _track1;
         private Track _track2;
+        private Track _track3;
+        private Track _track4;
+
         private List<Track> _tracklist;
         
         [SetUp]
@@ -193,6 +199,8 @@ namespace ATM.Test.Unit
 
             _track1 = new Track();
             _track2 = new Track();
+            _track3 = new Track();
+            _track4 = new Track();
             _tracklist = new List<Track>();
 
             //Making fakes (Stubs and mocks)
@@ -220,10 +228,32 @@ namespace ATM.Test.Unit
         }
 
         //[Test]
-        //public void FilteredData_FourTracksAddedTwoFiltered_TwoTracksInTracklist()
+        //public void FilteredData_FourTracksAdded_TwoTracksFiltered()
         //{
-        //    //Test for filtering data
+        //    _track1.PositionX = 50000;
+        //    _track1.PositionY = 50000;
+        //    _track1.Altitude = 1000;
 
+        //    _track2.PositionX = 50000;
+        //    _track2.PositionY = 50000;
+        //    _track2.Altitude = 1000;
+
+        //    _track3.PositionX = 100;
+        //    _track3.PositionY = 9000;
+        //    _track3.Altitude = 100;
+
+        //    _track4.PositionX = 100;
+        //    _track4.PositionY = 9000;
+        //    _track4.Altitude = 100;
+
+        //    _tracklist.Add(_track1);
+        //    _tracklist.Add(_track2);
+        //    _tracklist.Add(_track3);
+        //    _tracklist.Add(_track4);
+
+        //    _uut.FilterData(_tracklist);
+
+        //    Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
         //}
     }
 
