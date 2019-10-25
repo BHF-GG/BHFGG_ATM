@@ -214,7 +214,6 @@ namespace ATM.Test.Unit
 
             _tracklist.Add(_track1);
 
-            //_uut.FilterData(_tracklist);
             _uut.FilterData(_tracklist);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
