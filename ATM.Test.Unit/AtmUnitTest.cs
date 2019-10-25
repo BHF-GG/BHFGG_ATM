@@ -34,14 +34,14 @@ namespace ATM.Test.Unit
         private Track _track1;
         private Track _track2;
         private List<Track> _tracks;
-        private IFilter _testFilterSource;
+        //private IFilter _testFilterSource;
         private readonly IFilter _fakeFilter = new FakeFilter();
 
 
         [SetUp]
         public void SetUp()
         {
-            _testFilterSource = Substitute.For<IFilter>();
+            //_testFilterSource = Substitute.For<IFilter>();
             _receivedEventArgs = null;
             _track1 = new Track();
             _track2 = new Track();
