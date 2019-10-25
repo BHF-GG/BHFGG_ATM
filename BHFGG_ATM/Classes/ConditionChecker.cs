@@ -10,12 +10,12 @@ namespace BHFGG_ATM.Classes
 {
     public class ConditionChecker : IConditionChecker
     {
-        private List<Track> tracks;
+        private List<Condition> _conditions;
         public event EventHandler<ConditionCheckedEventArgs> ConditionsCheckedEvent;
 
         public ConditionChecker()
         {
-            tracks = new List<Track>();
+            _conditions = new List<Condition>();
         }
 
         public void CheckCondition(List<Track> tracks)
