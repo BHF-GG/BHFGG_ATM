@@ -52,8 +52,8 @@ namespace BHFGG_ATM.Classes
                 track.Timestamp = sArray[4];
 
                 //Skal have lavet noget med track 1 og track 2 her..
-                track.CompassCourse = track.CalculateCompassCourse();
-                track.HorizontalVelocity = track.CalculateCurrentVelocity();
+                //track.CompassCourse = track.CalculateCompassCourse()();
+                //track.HorizontalVelocity = track.CalculateCurrentVelocity();
 
                 newListOfTrack.Add(track);
             }
