@@ -11,6 +11,7 @@ using ITransponderReceiver = TransponderReceiver.ITransponderReceiver;
 
 namespace BHFGG_ATM.Classes
 {
+    
     public class StringFormatter : IStringFormatter
     {
         #region Event receiver
@@ -33,11 +34,17 @@ namespace BHFGG_ATM.Classes
 
         #region Event source
 
+        private List<Track> _previousListTracks = new List<Track>();
         public event EventHandler<DataFormattedEventArgs> DataFormattedEvent;
+
+        //Spørg Frank til denne del - det er forvirrende.
+        private ICompassCourseCalculator _courseCalculator = new CompassCourseDegreeCalculator();
+        private IVelocityCalculator _velocityCalculator = new VelocityCalculator();
         
 
         public void FormatData(List<string> stringToFormat)
         {
+
             List<Track> newListOfTrack = new List<Track>();
 
             foreach (var dataString in stringToFormat)
@@ -51,13 +58,21 @@ namespace BHFGG_ATM.Classes
                 track.Altitude = Convert.ToDouble(sArray[3]);
                 track.Timestamp = sArray[4];
 
-                //Skal have lavet noget med track 1 og track 2 her..
-                //track.CompassCourse = track.CalculateCompassCourse()();
-                //track.HorizontalVelocity = track.CalculateCurrentVelocity();
-
+                foreach (var pt in _previousListTracks)
+                {
+                    if (track.Tag == pt.Tag)
+                    {
+                        track.CompassCourse = _courseCalculator.CalculateCompassCourse(
+                            pt.PositionX,pt.PositionY,track.PositionX,track.PositionY);
+                        track.HorizontalVelocity = _velocityCalculator.CalculateCurrentVelocity(
+                            pt.PositionX, pt.PositionY, track.PositionX, track.PositionY,pt.Timestamp,track.Timestamp);
+                    }
+                }
+                
                 newListOfTrack.Add(track);
             }
 
+            _previousListTracks = newListOfTrack;
             OnDataFormattedEvent(new DataFormattedEventArgs { DataFormatted = newListOfTrack});
         }
 
