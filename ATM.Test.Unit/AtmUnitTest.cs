@@ -42,6 +42,7 @@ namespace ATM.Test.Unit
         [TestCase(100, 100, 400, -300, 500)]
         [TestCase(-100, -200, -200, -1000, 806)]
         [TestCase(50, -40, 50, -40, 0)]
+        [TestCase(10000, 10000, 90000, 90000, 113137)]
         public void GetDistance_ReturnsCorrectDistanceBetweenTwoTracks(double x1, double y1, double x2, double y2, int result)
         {
             fTrack1.PositionX = x1;
