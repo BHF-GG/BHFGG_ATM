@@ -9,6 +9,7 @@ namespace BHFGG_ATM.Classes
 {
     public abstract class Condition
     {
+        public string Type { get; protected set; }
         protected ILogCondition LogCondition;
         protected virtual void LogOnConstruction()
         {

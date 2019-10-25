@@ -17,6 +17,7 @@ namespace BHFGG_ATM.Classes
 
         public Separation(Track t1, Track t2, ILogCondition log)
         {
+            Type = "Separation";
             //TimeStamp = t1.TimeStamp;
             Tag1 = t1.Tag;
             Tag2 = t2.Tag;
