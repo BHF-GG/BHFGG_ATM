@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using ATM.Test.Unit.Fakes;
 using BHFGG_ATM.Classes;
 using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
@@ -34,6 +35,7 @@ namespace ATM.Test.Unit
         private Track _track2;
         private List<Track> _tracks;
         private IFilter _testFilterSource;
+        private readonly IFilter _fakeFilter = new FakeFilter();
 
 
         [SetUp]
@@ -45,7 +47,7 @@ namespace ATM.Test.Unit
             _track2 = new Track();
             _tracks = new List<Track>();
 
-            _uut = new ConditionChecker(5000,300, _testFilterSource);
+            _uut = new ConditionChecker(5000,300, _fakeFilter);
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
@@ -163,7 +165,7 @@ namespace ATM.Test.Unit
             _tracks.Add(_track1);
             _tracks.Add(_track2);
 
-            _testFilterSource.DataFilteredEvent += Raise.EventWith<DataFilteredEventArgs>(new DataFilteredEventArgs {DataFiltered = _tracks});
+            _fakeFilter.FilterData(_tracks);
 
             var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
             Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
