@@ -9,11 +9,6 @@ namespace BHFGG_ATM.EventArgClasses
 {
     public class DataFilteredEventArgs : EventArgs
     {
-        //public List<Track> DataFiltered
-        //{
-        //    get { return DataFiltered; }
-        //    set { DataFiltered = value; }
-        //}
-        public List<Track> DataFiltered { get; set; }
+        public List<Track> DataFiltered
     }
 }
