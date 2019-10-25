@@ -182,6 +182,9 @@ namespace ATM.Test.Unit
         private int EventCount;
         private Track _track1;
         private Track _track2;
+        private Track _track3;
+        private Track _track4;
+
         private List<Track> _tracklist;
         
         [SetUp]
@@ -192,6 +195,8 @@ namespace ATM.Test.Unit
 
             _track1 = new Track();
             _track2 = new Track();
+            _track3 = new Track();
+            _track4 = new Track();
             _tracklist = new List<Track>();
 
             //Making fakes (Stubs and mocks)
@@ -219,10 +224,32 @@ namespace ATM.Test.Unit
         }
 
         //[Test]
-        //public void FilteredData_FourTracksAddedTwoFiltered_TwoTracksInTracklist()
+        //public void FilteredData_FourTracksAdded_TwoTracksFiltered()
         //{
-        //    //Test for filtering data
+        //    _track1.PositionX = 50000;
+        //    _track1.PositionY = 50000;
+        //    _track1.Altitude = 1000;
 
+        //    _track2.PositionX = 50000;
+        //    _track2.PositionY = 50000;
+        //    _track2.Altitude = 1000;
+
+        //    _track3.PositionX = 100;
+        //    _track3.PositionY = 9000;
+        //    _track3.Altitude = 100;
+
+        //    _track4.PositionX = 100;
+        //    _track4.PositionY = 9000;
+        //    _track4.Altitude = 100;
+
+        //    _tracklist.Add(_track1);
+        //    _tracklist.Add(_track2);
+        //    _tracklist.Add(_track3);
+        //    _tracklist.Add(_track4);
+
+        //    _uut.FilterData(_tracklist);
+
+        //    Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
         //}
     }
 
