@@ -239,34 +239,35 @@ namespace ATM.Test.Unit
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
 
-        //[Test]
-        //public void FilteredData_FourTracksAdded_TwoTracksFiltered()
-        //{
-        //    _track1.PositionX = 50000;
-        //    _track1.PositionY = 50000;
-        //    _track1.Altitude = 1000;
+        [Test]
+        public void FilteredData_FourTracksAdded_TwoTracksFiltered()
+        {
+            _track1.PositionX = 50000;
+            _track1.PositionY = 50000;
+            _track1.Altitude = 1000;
 
-        //    _track2.PositionX = 50000;
-        //    _track2.PositionY = 50000;
-        //    _track2.Altitude = 1000;
+            _track2.PositionX = 50000;
+            _track2.PositionY = 50000;
+            _track2.Altitude = 1000;
 
-        //    _track3.PositionX = 100;
-        //    _track3.PositionY = 9000;
-        //    _track3.Altitude = 100;
+            _track3.PositionX = 100;
+            _track3.PositionY = 9000;
+            _track3.Altitude = 100;
 
-        //    _track4.PositionX = 100;
-        //    _track4.PositionY = 9000;
-        //    _track4.Altitude = 100;
+            _track4.PositionX = 100;
+            _track4.PositionY = 9000;
+            _track4.Altitude = 100;
 
-        //    _tracklist.Add(_track1);
-        //    _tracklist.Add(_track2);
-        //    _tracklist.Add(_track3);
-        //    _tracklist.Add(_track4);
+            _tracklist.Add(_track1);
+            _tracklist.Add(_track2);
+            _tracklist.Add(_track3);
+            _tracklist.Add(_track4);
 
-        //    _uut.FilterData(_tracklist);
 
-        //    Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
-        //}
+            _uut.FilterData(_tracklist);
+
+            Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
+        }
     }
 
     #region Frands' test

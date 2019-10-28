@@ -24,6 +24,7 @@ namespace BHFGG_ATM.Classes
         #region Constructor and methods for class
         public AirspaceFilter(IStringFormatter stringFormatter) //Could add all boundaries as parameters, if you wish to be able to change the airspace area
         {
+            CurrentListOfTracks = new List<Track>();
             stringFormatter.DataFormattedEvent += HandleDataFormattedEvent;
         }
 
