@@ -16,7 +16,8 @@ namespace BHFGG_ATM.Classes
         {
             foreach (var track in trackList)
             {
-                Console.WriteLine($"Tag: {track.Tag}          X-coordinate: {track.PositionX}          Y-coordinate: {track.PositionY}          Altitude: {track.Altitude}          Timestamp: {track.Timestamp}");
+                Console.WriteLine($"Tag: {track.Tag}          X-coordinate: {track.PositionX}          Y-coordinate: {track.PositionY}          Altitude: {track.Altitude}          Timestamp: {track.Timestamp}" +
+                                  $"          Horizontal Velocity: {track.HorizontalVelocity}          Current Compass course: {track.HorizontalVelocity}");
             }
         }
 

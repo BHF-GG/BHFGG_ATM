@@ -209,7 +209,7 @@ namespace ATM.Test.Unit
     [TestFixture]
     public class DisplayUnitTest
     {
-        private DataFilteredEventArgs _receivedEventArgs;
+        //private DataFilteredEventArgs _receivedEventArgs;
 
         private Display _uut;
 
@@ -227,7 +227,7 @@ namespace ATM.Test.Unit
         [SetUp]
         public void SetUp()
         {
-            _receivedEventArgs = null;
+            //_receivedEventArgs = null;
          
             _track1 = new Track();
             _track2 = new Track();
@@ -270,7 +270,7 @@ namespace ATM.Test.Unit
     [TestFixture]
     public class DisplayConditionUnitTest
     {
-        private ConditionCheckedEventArgs _receivedEventArgs;
+        //private ConditionCheckedEventArgs _receivedEventArgs;
 
         private DisplaySeparator _uut;
 
