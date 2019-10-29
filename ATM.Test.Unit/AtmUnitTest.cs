@@ -572,6 +572,8 @@ namespace ATM.Test.Unit
 
         private StringFormatter _uut;
 
+        private DataFormattedEventArgs _receivedEventArgs;
+
 
         [SetUp]
         public void SetUp()
@@ -583,6 +585,13 @@ namespace ATM.Test.Unit
 
             // Inject the fake StringFormatter
             _uut = new StringFormatter(_fakeTransponderReceiver,_fakeCompassCourseCalculator,_fakeVelocityCalculator);
+
+            //Fake Event Handler
+            _uut.DataFormattedEvent += (o, args) =>
+            {
+                _receivedEventArgs = args;
+            };
+
         }
 
         [Test]
@@ -600,6 +609,31 @@ namespace ATM.Test.Unit
 
             // Assert:
             Assert.That(_uut.CurrentTransponderData,Is.EqualTo(testData));
+
+            
+        }
+
+        [Test]
+        public void FormatData_Call_OnDataFormattedEvent_EventReceived_OK()
+        {
+            // Arrange: Test data
+            List<string> testData1 = new List<string>();
+            testData1.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData1.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData1.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            List<string> testData2 = new List<string>();
+            testData2.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData2.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData2.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            //Act:
+            _uut.FormatData(testData1);
+            //Act:
+            _uut.FormatData(testData1);
+
+            //Assert:
+            Assert.That(_receivedEventArgs, Is.Not.Null);
         }
     }
 
