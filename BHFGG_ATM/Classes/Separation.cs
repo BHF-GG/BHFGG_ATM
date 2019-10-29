@@ -24,7 +24,7 @@ namespace BHFGG_ATM.Classes
             Tag2 = t2.Tag;
             Id = "S" + id.ToString();
             if (log == null)
-                LogCondition = new LogSeparationCondition();
+                log = new LogSeparationCondition();
 
             LogCondition = log;
             LogOnConstruction();
