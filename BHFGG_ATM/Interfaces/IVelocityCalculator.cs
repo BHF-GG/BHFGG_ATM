@@ -16,3 +16,4 @@ namespace BHFGG_ATM.Interfaces
         double CalculateSecondsBetweenDates(DateTime oldDate, DateTime newDate);
     }
 }
+    

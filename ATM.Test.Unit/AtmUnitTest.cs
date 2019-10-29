@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using ATM.Test.Unit.Fakes;
 using BHFGG_ATM.Classes;
 using BHFGG_ATM.EventArgClasses;
@@ -13,6 +9,7 @@ using BHFGG_ATM.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 using TransponderReceiver;
+using Assert = NUnit.Framework.Assert;
 
 
 namespace ATM.Test.Unit
@@ -458,7 +455,7 @@ namespace ATM.Test.Unit
     }
     #endregion
 
-    #region Frands' test
+    #region StringFormatter
 
     [TestFixture]
     public class StringFormatterUnitTest
@@ -485,7 +482,7 @@ namespace ATM.Test.Unit
         [Test]
         public void HandleTransponderDataEvent_EventReceived_OK()
         {
-            // Setup test data
+            // Arrange: Test data
             List<string> testData = new List<string>();
             testData.Add("ATR423;39045;12932;14000;20151006213456789");
             testData.Add("BCD123;10005;85890;12000;20151006213456789");
@@ -495,26 +492,150 @@ namespace ATM.Test.Unit
             _fakeTransponderReceiver.TransponderDataReady
                 += Raise.EventWith(this, new RawTransponderDataEventArgs(testData));
 
-            // Assert something here or use an NSubstitute Received
+            // Assert:
             Assert.That(_uut.CurrentTransponderData,Is.EqualTo(testData));
         }
+    }
 
-        //public void FormatData_EventRaised_OK()
-        //{
-        //    //Use setup from different scenario
-        //    HandleTransponderDataEvent_EventReceived_OK();
+    //#endregion
 
-        //    // Act: 
-        //    // Assert something here or use an NSubstitute Received
-        //    Assert.That(_uut.CurrentTransponderData, Is.EqualTo(testData));
-        //}
+    //#region CompassCourseDegreeCalvulator
 
+    //[TestFixture]
+    //public class CompassCourseDegreeCalculatorUnitTest
+    //{
+    //    private CompassCourseDegreeCalculator _uut;
+
+    //    [SetUp]
+    //    public void SetUp()
+    //    {
+    //        _uut = new CompassCourseDegreeCalculator();
+    //    }
+
+    //    [TestCase(10,20,30,50)]
+    //    [TestCase(-5, 20, -10, 30)]
+    //    [TestCase(4, -80, -30.33, 50)]
+    //    [TestCase(-10, -20, -30, -50)]
+    //    public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY,double newPointX,double newPointY)
+    //    {
+    //        //Act and Assert:
+    //        Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
+    //    }
+        
+    //}
+
+    #endregion
+
+    #region VelocityCalculator
+
+    [TestFixture]
+    public class VelocityCalculatorUnitTest
+    {
+        private VelocityCalculator _uut;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _uut = new VelocityCalculator();
+        }
+
+        [TestCase("20191215223234491")]
+        public void ConvertStringTimestampToDateTime_InputStringOK_OutputDateOK(string timeStamp)
+        {
+            //Act:
+            DateTime actualDateTime = _uut.ConvertStringTimestampToDateTime(timeStamp);
+            DateTime expectedDateTime = new DateTime(2019, 12, 15, 22, 32, 34, 491);
+
+            //Assert:
+            Assert.AreEqual(expectedDateTime, actualDateTime);
+        }
+
+        [TestCase("20191315323449108")]
+        [TestCase("20191232323449108")]
+        [TestCase("20191215743449108")]
+        [TestCase("20191215327449108")]
+        [TestCase("20191215323474108")]
+        public void ConvertStringTimestampToDateTime_InputStringInvalid_ThrowException(string timeStamp)
+        {
+            //Act and Assert:
+            Assert.That(() => { _uut.ConvertStringTimestampToDateTime(timeStamp); }, Throws.TypeOf<InvalidDataException>());
+        }
+
+        [TestCase(456,234,897,997, "20191215223234491", "20191215225234491")]
+        public void CalculateCurrentVelocity(double oldPointX, double oldPointY, double newPointX, double newPointY,string oldTime,string newTime)
+        {
+            //Act:
+            Track oldTrack = new Track();
+            Track newTrack = new Track();
+
+            oldTrack.PositionX = oldPointX;
+            oldTrack.PositionY = oldPointY;
+            newTrack.PositionX = newPointX;
+            newTrack.PositionY = newPointY;
+
+            string oldTimestamp = oldTime;
+            string newTimestamp = newTime;
+
+            //Assert:
+            _uut.CalculateCurrentVelocity(oldTrack.PositionX, 
+                oldTrack.PositionY, 
+                newTrack.PositionX,
+                newTrack.PositionY,
+                oldTimestamp,newTimestamp);
+
+            //What to do?
+
+        }
+
+        [TestCase(2019,11,22,12,53,31,555,
+                                2019,11,22,13,53,31,555,
+                                3600)]
+        [TestCase(2019, 11, 22, 12, 53, 31, 555,
+                                2019, 11, 22, 13, 00, 31, 555,
+                                420)]
+        [TestCase(2019, 11, 22, 12, 53, 31, 555,
+                                2019, 11, 22, 12, 53, 35, 555,
+                                4)]
+        [TestCase(2019, 11, 22, 12, 53, 31, 555,
+                                2019, 11, 22, 12, 53, 31, 556,
+                                0.001)]
+        public void CalculateSecondsBetweenDates_ValidInput_ResultOK(int oldYear, int oldMonth, int oldDay, int oldHour,
+                                                    int oldMinute, int oldSecond, int oldMillisecond,
+                                                    int newYear, int newMonth, int newDay, int newHour,
+                                                    int newMinute, int newSecond, int newMillisecond,double expectedTime)
+        {
+            //Act:
+            DateTime oldDateTime = new DateTime(oldYear,oldMonth,oldDay,oldHour,oldMinute,oldSecond,oldMillisecond);
+            DateTime newDateTime = new DateTime(newYear,newMonth,newDay,newHour,newMinute,newSecond,newMillisecond);
+            double actualTimeBetweenDates = _uut.CalculateSecondsBetweenDates(oldDateTime, newDateTime);
+
+            //Assert:
+            Assert.AreEqual(expectedTime, actualTimeBetweenDates);
+        }
+
+        [TestCase(2019, 11, 22, 12, 53, 31, 555,
+                                2019, 11, 22, 11, 53, 31, 555)]
+        [TestCase(2019, 11, 22, 12, 53, 31, 555,
+                                2018, 11, 22, 11, 53, 31, 555)]
+        [TestCase(2019, 11, 22, 12, 53, 31, 555,
+                                2019, 01, 22, 11, 53, 31, 555)]
+        public void CalculateSecondsBetweenDates_OldDateMostRecent_ExceptionThrown(int oldYear, int oldMonth, int oldDay, int oldHour,
+            int oldMinute, int oldSecond, int oldMillisecond,
+            int newYear, int newMonth, int newDay, int newHour,
+            int newMinute, int newSecond, int newMillisecond)
+        {
+            //Act:
+            DateTime oldDateTime = new DateTime(oldYear, oldMonth, oldDay, oldHour, oldMinute, oldSecond, oldMillisecond);
+            DateTime newDateTime = new DateTime(newYear, newMonth, newDay, newHour, newMinute, newSecond, newMillisecond);
+
+            //Assert:
+            Assert.That(() => { _uut.CalculateSecondsBetweenDates(oldDateTime, newDateTime); }, Throws.TypeOf<ArgumentException>());
+        }
 
     }
 
     #endregion
-
-
-
+    
 
 }
+
