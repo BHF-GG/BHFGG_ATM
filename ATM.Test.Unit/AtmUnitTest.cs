@@ -673,9 +673,8 @@ namespace ATM.Test.Unit
         public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
             //Act and Assert:
-
-            //This is not okay!
-            Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
+            double compassCourse = _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY);
+            Assert.IsTrue(0 <= compassCourse && compassCourse <=359, "Compass course out of range");
         }
     }
 
