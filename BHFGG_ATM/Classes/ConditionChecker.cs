@@ -28,7 +28,7 @@ namespace BHFGG_ATM.Classes
 
         public void CheckCondition(List<Track> tracks)
         {
-            _conditions = new List<Condition>();
+            _conditions.Clear();
             var validCondition = true;
             foreach (var track in tracks)
             {
