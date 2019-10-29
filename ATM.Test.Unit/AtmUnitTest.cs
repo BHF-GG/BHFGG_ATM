@@ -79,26 +79,23 @@ namespace ATM.Test.Unit
         [TestCase(500, 500, 10000, 90000, 10000, 10001, 1)]
         public void CheckCondition_CorrectAmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int amountOfConditions)
         {
-            Track _track3 = new Track();
-            Track _track4 = new Track();
-            _track3.Tag = "3";
+            var _track3 = new Track {Tag = "3"};
+
             _track1.Altitude = A1;
             _track1.PositionX = x1;
             _track1.PositionY = y1;
+
             _track2.Altitude = A2;
             _track2.PositionX = x2;
             _track2.PositionY = y2;
+
             _track3.Altitude = A2;
             _track3.PositionX = x2;
             _track3.PositionY = y2;
-            //_track4.Altitude = A2;
-            //_track4.PositionX = x2;
-            //_track4.PositionY = y2;
 
             _tracks.Add(_track1);
             _tracks.Add(_track2);
             _tracks.Add(_track3);
-            //_tracks.Add(_track4);
 
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs.ConditionsChecked.Count, Is.EqualTo(amountOfConditions));
@@ -160,8 +157,6 @@ namespace ATM.Test.Unit
 
             Assert.That(_uut.GetDistance(_track1,_track2).Equals(result));
         }
-
-        
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
         public void DataFilteredEvent_Received(double A1, double A2, double x1, double x2, double y1, double y2)
