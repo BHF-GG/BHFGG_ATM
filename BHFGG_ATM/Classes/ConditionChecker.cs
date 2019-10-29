@@ -12,6 +12,7 @@ namespace BHFGG_ATM.Classes
     {
         private int _minimumDistance;
         private int _minimumAltitude;
+        private int _conditionId;
 
         private List<Condition> _conditions;
         public event EventHandler<ConditionCheckedEventArgs> ConditionsCheckedEvent;
@@ -21,6 +22,7 @@ namespace BHFGG_ATM.Classes
             _minimumAltitude = minimumAltitude;
             _minimumDistance = minimumDistance;
             _conditions = new List<Condition>();
+            _conditionId = 0;
             filter.DataFilteredEvent += HandleDataFilteredEvent;
         }
 
@@ -38,10 +40,9 @@ namespace BHFGG_ATM.Classes
                              (separation.Tag1 == t.Tag || separation.Tag2 == t.Tag))))
                     {
                         validCondition = false;
-                        
                     }
                     if (validCondition)
-                        _conditions.Add(new Separation(track, t, new LogSeparationCondition()));
+                        _conditions.Add(new Separation(track, t,++_conditionId, new LogSeparationCondition()));
                     validCondition = true;
                 }
             }

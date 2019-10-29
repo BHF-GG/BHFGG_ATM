@@ -10,14 +10,14 @@ namespace BHFGG_ATM.Classes
 {
     public class DisplaySeparator : Display
     {
-        private List<Condition> ListOfConditionsToDisplay;
+        public List<Condition> ListOfConditionsToDisplay { get; set; }
 
         public override void DisplayConditions(List<Condition> conditionList)
         {
             foreach (var track in conditionList)
             {
                 Separation sep = (Separation) track;
-                Console.WriteLine($"Condition: {sep.Type}          Timestamp: {sep.Timestamp}");
+                Console.WriteLine($"ID: {sep.Id}          Condition: {sep.Type}          Timestamp: {sep.Timestamp}");
             }
         }
 
@@ -25,6 +25,7 @@ namespace BHFGG_ATM.Classes
             :  base(filteredData)
         {
             conditionData.ConditionsCheckedEvent += HandleConditionCheckedEvent;
+            ListOfConditionsToDisplay = new List<Condition>();
         }
 
         private void HandleConditionCheckedEvent(object sender, ConditionCheckedEventArgs e)

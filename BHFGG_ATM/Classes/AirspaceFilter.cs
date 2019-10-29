@@ -24,6 +24,7 @@ namespace BHFGG_ATM.Classes
         #region Constructor and methods for class
         public AirspaceFilter(IStringFormatter stringFormatter) //Could add all boundaries as parameters, if you wish to be able to change the airspace area
         {
+            CurrentListOfTracks = new List<Track>();
             stringFormatter.DataFormattedEvent += HandleDataFormattedEvent;
         }
 
@@ -31,7 +32,7 @@ namespace BHFGG_ATM.Classes
         public void FilterData(List<Track> trackList)
         {
             //Make an empty current list here??????
-            //CurrentListOfTracks.Clear();
+            CurrentListOfTracks.Clear();
             //Filtering data here
             foreach (var track in trackList)
             {
@@ -57,7 +58,7 @@ namespace BHFGG_ATM.Classes
         //Handling the event from DataFormatter setting current list of track equal to the received list of tracks
         private void HandleDataFormattedEvent(object sender, DataFormattedEventArgs e)
         {
-            //CurrentListOfTracks = e.DataFormatted;
+            CurrentListOfTracks = e.DataFormatted;
             FilterData(e.DataFormatted);
         }
         #endregion

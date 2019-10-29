@@ -11,6 +11,7 @@ namespace BHFGG_ATM.Classes
     {
         public string Type { get; protected set; }
         public string Timestamp { get; protected set; }
+        public string Id { get; protected set; }
         protected ILogCondition LogCondition;
         protected virtual void LogOnConstruction()
         {
