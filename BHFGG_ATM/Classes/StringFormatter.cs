@@ -46,9 +46,6 @@ namespace BHFGG_ATM.Classes
         private List<Track> _previousListTracks = new List<Track>();
         public event EventHandler<DataFormattedEventArgs> DataFormattedEvent;
 
-        //Spørg Frank til denne del - det er forvirrende.
-        
-
         public void FormatData(List<string> stringToFormat)
         {
 

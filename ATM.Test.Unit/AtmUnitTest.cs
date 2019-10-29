@@ -8,6 +8,7 @@ using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Internal.Execution;
 using TransponderReceiver;
 using Assert = NUnit.Framework.Assert;
 
@@ -464,6 +465,8 @@ namespace ATM.Test.Unit
         private ICompassCourseCalculator _fakeCompassCourseCalculator;
         private IVelocityCalculator _fakeVelocityCalculator;
 
+        private DataFormattedEventArgs _receivedEventArgs;
+
         private StringFormatter _uut;
 
 
@@ -477,6 +480,15 @@ namespace ATM.Test.Unit
 
             // Inject the fake StringFormatter
             _uut = new StringFormatter(_fakeTransponderReceiver,_fakeCompassCourseCalculator,_fakeVelocityCalculator);
+
+            _receivedEventArgs = null;
+
+            //Fake Event Handler
+            _uut.DataFormattedEvent += (o, args) =>
+            {
+                _receivedEventArgs = args;
+            };
+
         }
 
         [Test]
@@ -497,9 +509,19 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void FormatData_Something_OK()
+        public void FormatData_EventRaised_OK()
         {
+            //Arrange:
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
 
+            //Act:
+            _uut.FormatData(testData);
+
+            //Assert:
+            Assert.That(_receivedEventArgs, Is.Not.Null);
         }
     }
 
