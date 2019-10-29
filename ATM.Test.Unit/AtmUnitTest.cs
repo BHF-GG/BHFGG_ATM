@@ -15,14 +15,105 @@ using Assert = NUnit.Framework.Assert;
 namespace ATM.Test.Unit
 {
     [TestFixture]
-    public class AtmUnitTest
+    public class AtmIntegrationTest
     {
+        private DisplaySeparator display;
+        private IConditionChecker conditionChecker;
+        private IFilter filter;
+        private IStringFormatter stringFormatter;
+        private ITransponderReceiver transponderReceiver;
         private BHFGG_ATM.Classes.ATM _uut;
+
+        private List<Track> tracks;
+        private Track track1;
+        private Track track2;
+        private Track track3;
+        private Track track4;
+        private int trackNumber = 1;
+
+        private List<Condition> conditions;
+        private Separation sep1;
+        private Separation sep2;
+        private Separation sep3;
+        private Separation sep4;
+        private int separationNumber = 1;
+
+        private void trackSetup(Track track)
+        {
+            track.Altitude = trackNumber * +300;
+            track.PositionX = trackNumber + 20000;
+            track.PositionY = trackNumber + 40000;
+            track.Tag = trackNumber.ToString();
+            track.Timestamp = DateTime.Now.ToString();
+            trackNumber++;
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            tracks = new List<Track>();
+            track1 = new Track();
+            track2 = new Track();
+            track3 = new Track();
+            track4 = new Track();
+            tracks.Add(track1);
+            tracks.Add(track2);
+            tracks.Add(track3);
+            tracks.Add(track4);
+
+            foreach (var track in tracks)
+            {
+                trackSetup(track);
+            }
+
+            trackNumber = 1;
+
+            sep1 = new Separation(track1, track2,1,new LogSeparationCondition());
+            sep2 = new Separation(track1, track3, 2, new LogSeparationCondition());
+            sep3 = new Separation(track2, track4, 3, new LogSeparationCondition());
+            sep4 = new Separation(track3, track4, 4, new LogSeparationCondition());
+
+            conditions = new List<Condition>();
+            conditions.Add(sep1);
+            conditions.Add(sep2);
+            conditions.Add(sep3);
+            conditions.Add(sep4);
+
+        }
 
         [TestCase(5000,300)]
         public void ATMConstructorTest(int d, int a)
         {
             _uut = new BHFGG_ATM.Classes.ATM(d, a);
+        }
+
+        [Test]
+        public void ATM_Display()
+        {
+            filter = Substitute.For<IFilter>();
+            conditionChecker = Substitute.For<IConditionChecker>();
+            display = new DisplaySeparator(filter, conditionChecker);
+
+            filter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs() {DataFiltered = tracks});
+            conditionChecker.ConditionsCheckedEvent += Raise.EventWith(new ConditionCheckedEventArgs()
+                {ConditionsChecked = conditions});
+
+            Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo(conditions));
+            Assert.That(display.ListOfTracksToDisplay,Is.EqualTo(tracks));
+        }
+
+        [Test]
+        public void ATM_Display_ConditionChecker()
+        {
+            filter = Substitute.For<IFilter>();
+            conditionChecker = new ConditionChecker(5000,300,filter);
+            display = new DisplaySeparator(filter,conditionChecker);
+
+            filter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs() { DataFiltered = tracks });
+
+            //Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo());
+            Assert.That(display.ListOfTracksToDisplay, Is.EqualTo(tracks));
+
         }
     }
 
@@ -497,32 +588,31 @@ namespace ATM.Test.Unit
         }
     }
 
-    //#endregion
+    #endregion
 
-    //#region CompassCourseDegreeCalvulator
+    #region CompassCourseDegreeCalvulator
 
-    //[TestFixture]
-    //public class CompassCourseDegreeCalculatorUnitTest
-    //{
-    //    private CompassCourseDegreeCalculator _uut;
+    [TestFixture]
+    public class CompassCourseDegreeCalculatorUnitTest
+    {
+        private CompassCourseDegreeCalculator _uut;
 
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        _uut = new CompassCourseDegreeCalculator();
-    //    }
+        [SetUp]
+        public void SetUp()
+        {
+            _uut = new CompassCourseDegreeCalculator();
+        }
 
-    //    [TestCase(10,20,30,50)]
-    //    [TestCase(-5, 20, -10, 30)]
-    //    [TestCase(4, -80, -30.33, 50)]
-    //    [TestCase(-10, -20, -30, -50)]
-    //    public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY,double newPointX,double newPointY)
-    //    {
-    //        //Act and Assert:
-    //        Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
-    //    }
-        
-    //}
+        [TestCase(10, 20, 30, 50)]
+        [TestCase(-5, 20, -10, 30)]
+        [TestCase(4, -80, -30.33, 50)]
+        [TestCase(-10, -20, -30, -50)]
+        public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY, double newPointX, double newPointY)
+        {
+            //Act and Assert:
+            Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
+        }
+    }
 
     #endregion
 
