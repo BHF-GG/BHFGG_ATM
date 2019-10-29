@@ -235,14 +235,19 @@ namespace ATM.Test.Unit
 
         private DisplaySeparator _uut;
 
+        private ILogCondition _fakeLogCondition;
         private IConditionChecker _fakeConditionChecker;
         private IFilter _fakeFilter;
+
+        private Separation _sep1;
+        private Separation _sep2;
+        private Separation _sep3;
 
         private Track _track1;
         private Track _track2;
         private Track _track3;
-        private Track _track4;
-        private List<Track> _tracklist;
+
+        private List<Condition> _sepList;
 
         [SetUp]
         public void SetUp()
@@ -250,21 +255,47 @@ namespace ATM.Test.Unit
             _track1 = new Track();
             _track2 = new Track();
             _track3 = new Track();
-            _track4 = new Track();
-            _tracklist = new List<Track>();
+
+            //_sep1 = new Separation(_track1, _track2, _fakeLogCondition);
+            //_sep2 = new Separation(_track1, _track2, _fakeLogCondition);
+            //_sep3 = new Separation(_track1, _track2, _fakeLogCondition);
+
+            _sepList = new List<Condition>();
 
             //Making fakes (Stubs and mocks)
             _fakeConditionChecker = Substitute.For<IConditionChecker>();
             _fakeFilter = Substitute.For<IFilter>();
+            _fakeLogCondition = Substitute.For<ILogCondition>();
 
             _uut = new DisplaySeparator(_fakeFilter, _fakeConditionChecker);
         }
 
-        //[Test]
-        //public void DisplayCondition_TwoTracksAdded_DisplayOneCondition()
-        //{
+        [Test]
+        public void DisplayCondition_TwoTracksAdded_DisplayOneCondition()
+        {
+            _track1.PositionX = 50000;
+            _track1.PositionY = 50000;
 
-        //}
+            _track2.PositionX = 50001;
+            _track2.PositionY = 50001;
+
+            _track3.PositionX = 50002;
+            _track3.PositionY = 50002;
+
+            _sep1 = new Separation(_track1, _track2, _fakeLogCondition);
+            _sep2 = new Separation(_track1, _track3, _fakeLogCondition);
+            _sep3 = new Separation(_track2, _track3, _fakeLogCondition);
+
+            _sepList.Add(_sep1);
+            _sepList.Add(_sep2);
+            _sepList.Add(_sep3);
+
+            // Act: Trigger the fake object to execute event invocation
+            _fakeConditionChecker.ConditionsCheckedEvent += Raise.EventWith(this, new ConditionCheckedEventArgs {ConditionsChecked = _sepList});
+
+            // Assert something here or use an NSubstitute Received
+            Assert.That(_uut.ListOfConditionsToDisplay, Is.EqualTo(_sepList));
+        }
     }
 
     //Datafilter tests
