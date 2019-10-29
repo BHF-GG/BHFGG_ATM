@@ -14,8 +14,21 @@ using NSubstitute;
 using NUnit.Framework;
 using TransponderReceiver;
 
+
 namespace ATM.Test.Unit
 {
+    [TestFixture]
+    public class AtmUnitTest
+    {
+        private BHFGG_ATM.Classes.ATM _uut;
+
+        [TestCase(5000,300)]
+        public void ATMConstructorTest(int d, int a)
+        {
+            _uut = new BHFGG_ATM.Classes.ATM(d, a);
+        }
+    }
+
     [TestFixture]
     public class ConditionCheckerUnitTest
     {
