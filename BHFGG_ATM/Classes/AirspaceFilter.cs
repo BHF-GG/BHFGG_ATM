@@ -15,10 +15,10 @@ namespace BHFGG_ATM.Classes
 
         private double LowerBoundary = 500;
         private double UpperBoundary = 20000;
-        private double NorthBoundary = 10000;
-        private double SouthBoundary = 90000;
-        private double EastBoundary = 10000;
-        private double WestBoundary = 90000;
+        private double NorthBoundary = 90000;
+        private double SouthBoundary = 10000;
+        private double EastBoundary = 90000;
+        private double WestBoundary = 10000;
         #endregion
 
         #region Constructor and methods for class
@@ -36,8 +36,8 @@ namespace BHFGG_ATM.Classes
             //Filtering data here
             foreach (var track in trackList)
             {
-                if (track.PositionX >= EastBoundary && track.PositionX <= WestBoundary &&
-                    track.PositionY >= NorthBoundary && track.PositionY <= SouthBoundary &&
+                if (track.PositionX <= EastBoundary && track.PositionX >= WestBoundary &&
+                    track.PositionY <= NorthBoundary && track.PositionY >= SouthBoundary &&
                     track.Altitude >= LowerBoundary && track.Altitude <= UpperBoundary)
                 {
                     CurrentListOfTracks.Add(track);

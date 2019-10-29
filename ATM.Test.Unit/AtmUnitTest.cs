@@ -40,7 +40,7 @@ namespace ATM.Test.Unit
 
         private void trackSetup(Track track)
         {
-            track.Altitude = trackNumber * +300;
+            track.Altitude = trackNumber +600;
             track.PositionX = trackNumber + 20000;
             track.PositionY = trackNumber + 40000;
             track.Tag = trackNumber.ToString();
