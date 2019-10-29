@@ -255,16 +255,12 @@ namespace ATM.Test.Unit
             // Act: Trigger the fake object to execute event invocation
             _fakeFilter.DataFilteredEvent += Raise.EventWith(this, new DataFilteredEventArgs{DataFiltered = _tracklist});
 
+            //Test for method that does nothing
+            _uut.DisplayConditions(_sepList);
+
             // Assert something here or use an NSubstitute Received
             Assert.That(_uut.ListOfTracksToDisplay, Is.EqualTo(_tracklist));
         }
-
-        //[Test]
-        //public void DisplayCondition_MethodDoesNothing()
-        //{
-        //    _uut.DisplayConditions(_sepList);
-        //    Assert.That();
-        //}
     }
 
     //Displaying data tests
@@ -286,6 +282,7 @@ namespace ATM.Test.Unit
         private Track _track1;
         private Track _track2;
         private Track _track3;
+        private List<Track> _tracklist;
 
         private List<Condition> _sepList;
 
@@ -295,6 +292,7 @@ namespace ATM.Test.Unit
             _track1 = new Track();
             _track2 = new Track();
             _track3 = new Track();
+            _tracklist = new List<Track>();
 
             _sepList = new List<Condition>();
 
@@ -331,6 +329,32 @@ namespace ATM.Test.Unit
 
             // Assert something here or use an NSubstitute Received
             Assert.That(_uut.ListOfConditionsToDisplay, Is.EqualTo(_sepList));
+        }
+
+        [Test]
+        public void DisplayBothNoConditionsAndConditions_ThreeTracksAdded_TwoHasCondition()
+        {
+            _track1.PositionX = 50000;
+            _track1.PositionY = 50000;
+
+            _track2.PositionX = 50001;
+            _track2.PositionY = 50001;
+
+            _track3.PositionX = 70002;
+            _track3.PositionY = 70002;
+
+            _sep1 = new Separation(_track1, _track2, 1, _fakeLogCondition);
+
+            _sepList.Add(_sep1);
+            _tracklist.Add(_track1);
+            _tracklist.Add(_track2);
+            _tracklist.Add(_track3);
+
+            _fakeConditionChecker.ConditionsCheckedEvent += Raise.EventWith(this, new ConditionCheckedEventArgs { ConditionsChecked = _sepList });
+            _fakeFilter.DataFilteredEvent += Raise.EventWith(this, new DataFilteredEventArgs { DataFiltered = _tracklist });
+
+            Assert.That(_uut.ListOfConditionsToDisplay, Is.EqualTo(_sepList));
+            Assert.That(_uut.ListOfTracksToDisplay, Is.EqualTo(_tracklist));
         }
     }
 
