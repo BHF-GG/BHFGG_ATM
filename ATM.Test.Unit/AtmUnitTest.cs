@@ -207,14 +207,14 @@ namespace ATM.Test.Unit
             _uut = new Display(_fakeFilter);
         }
 
-        [Test]
-        public void HandleDataFiltered_EventReceived_DisplayAllTracks()
+        [TestCase(50000, 50000, 40000, 40000)]
+        public void HandleDataFiltered_EventReceived_DisplayAllTracks(double a1, double a2, double a3, double a4)
         {
-            _track1.PositionX = 50000;
-            _track1.PositionY = 50000;
+            _track1.PositionX = a1;
+            _track1.PositionY = a2;
 
-            _track2.PositionX = 40000;
-            _track2.PositionY = 40000;
+            _track2.PositionX = a3;
+            _track2.PositionY = a4;
 
             _tracklist.Add(_track1);
             _tracklist.Add(_track2);
