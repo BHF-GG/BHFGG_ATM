@@ -470,7 +470,6 @@ namespace ATM.Test.Unit
 
         private IStringFormatter _fakeFormatter;
         
-        private int EventCount;
         private Track _track1;
         private Track _track2;
         private Track _track3;
@@ -482,7 +481,6 @@ namespace ATM.Test.Unit
         public void SetUp()
         { 
             _receivedEventArgs = null;
-            EventCount = 0;
 
             _track1 = new Track();
             _track2 = new Track();
@@ -498,7 +496,6 @@ namespace ATM.Test.Unit
             _uut.DataFilteredEvent += (o, args) => 
             { 
                 _receivedEventArgs = args;
-                EventCount++;
             };
         }
 
@@ -659,6 +656,8 @@ namespace ATM.Test.Unit
         public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
             //Act and Assert:
+
+            //This is not okay!
             Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
         }
     }
