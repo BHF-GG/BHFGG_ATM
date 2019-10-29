@@ -14,8 +14,21 @@ using NSubstitute;
 using NUnit.Framework;
 using TransponderReceiver;
 
+
 namespace ATM.Test.Unit
 {
+    [TestFixture]
+    public class AtmUnitTest
+    {
+        private BHFGG_ATM.Classes.ATM _uut;
+
+        [TestCase(5000,300)]
+        public void ATMConstructorTest(int d, int a)
+        {
+            _uut = new BHFGG_ATM.Classes.ATM(d, a);
+        }
+    }
+
     [TestFixture]
     public class ConditionCheckerUnitTest
     {
@@ -47,6 +60,13 @@ namespace ATM.Test.Unit
                 (o, args) => { _receivedEventArgs = args; };
         }
 
+        [Test]
+        public void SeparationConstructor_WithNullInConstructor()
+        {
+            Separation sep = new Separation(_track1,_track2,1);
+
+            Assert.That(sep.Tag1, Is.EqualTo(_track1.Tag));
+        }
 
         [TestCase(400,500,10000,10001,10000,10001)]
         public void CheckCondition_GeneratesConditionList(double A1, double A2, double x1, double x2, double y1, double y2)

@@ -22,9 +22,9 @@ namespace BHFGG_ATM.Classes
             Timestamp = t1.Timestamp;
             Tag1 = t1.Tag;
             Tag2 = t2.Tag;
-            Id = id.ToString();
+            Id = "S" + id.ToString();
             if (log == null)
-                LogCondition = new LogSeparationCondition();
+                log = new LogSeparationCondition();
 
             LogCondition = log;
             LogOnConstruction();
