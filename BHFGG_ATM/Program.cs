@@ -13,7 +13,6 @@ namespace BHFGG_ATM
     {
         static void Main(string[] args)
         {
-
             ATM atm1 = new ATM(5000,300);
             while (true)
             {
