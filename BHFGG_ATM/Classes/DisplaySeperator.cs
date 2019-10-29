@@ -25,7 +25,7 @@ namespace BHFGG_ATM.Classes
             :  base(filteredData)
         {
             conditionData.ConditionsCheckedEvent += HandleConditionCheckedEvent;
-            ListOfConditionsToDisplay = new List<Condition>();
+            //ListOfConditionsToDisplay = new List<Condition>();
         }
 
         private void HandleConditionCheckedEvent(object sender, ConditionCheckedEventArgs e)
