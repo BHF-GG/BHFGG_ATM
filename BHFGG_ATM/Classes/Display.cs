@@ -25,6 +25,7 @@ namespace BHFGG_ATM.Classes
 
         public Display(IFilter filteredData)
         {
+            Console.Clear();
             filteredData.DataFilteredEvent += HandleDataFilteredEvent;
             //ListOfTracksToDisplay = new List<Track>();
         }
