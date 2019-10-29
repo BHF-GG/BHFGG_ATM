@@ -470,7 +470,6 @@ namespace ATM.Test.Unit
 
         private IStringFormatter _fakeFormatter;
         
-        private int EventCount;
         private Track _track1;
         private Track _track2;
         private Track _track3;
@@ -482,7 +481,6 @@ namespace ATM.Test.Unit
         public void SetUp()
         { 
             _receivedEventArgs = null;
-            EventCount = 0;
 
             _track1 = new Track();
             _track2 = new Track();
@@ -498,7 +496,6 @@ namespace ATM.Test.Unit
             _uut.DataFilteredEvent += (o, args) => 
             { 
                 _receivedEventArgs = args;
-                EventCount++;
             };
         }
 
@@ -513,21 +510,7 @@ namespace ATM.Test.Unit
             _uut.FilterData(_tracklist);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
-        /*
-        [Test]
-        public void HandleDataFilteredEvent_EventReceived()
-        {
-            _track1.PositionX = 50000;
-            _track1.PositionY = 50000;
 
-            _tracklist.Add(_track1);
-
-            // Act: Trigger the fake object to execute event invocation
-            _fakeFormatter.DataFormattedEvent += Raise.EventWith(this, new DataFormattedEventArgs{DataFormatted = _tracklist});
-
-            // Assert something here or use an NSubstitute Received
-            Assert.That(_uut.CurrentListOfTracks, Is.EqualTo(_tracklist));
-        }*/
 
         [Test]
         public void FilteredData_FourTracksAdded_TwoTracksFiltered()
