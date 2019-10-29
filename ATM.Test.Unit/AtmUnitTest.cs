@@ -115,6 +115,21 @@ namespace ATM.Test.Unit
             Assert.That(display.ListOfTracksToDisplay, Is.EqualTo(tracks));
 
         }
+
+        [Test]
+        public void ATM_Display_ConditionChecker_AirSpaceFilter()
+        {
+            stringFormatter = Substitute.For<IStringFormatter>();
+            filter = new AirspaceFilter(stringFormatter);
+            conditionChecker = new ConditionChecker(5000, 300, filter);
+            display = new DisplaySeparator(filter, conditionChecker);
+
+            stringFormatter.DataFormattedEvent +=
+                Raise.EventWith(new DataFormattedEventArgs() {DataFormatted = tracks});
+
+            //Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo());
+            Assert.That(display.ListOfTracksToDisplay, Is.EqualTo(tracks));
+        }
     }
 
     [TestFixture]
