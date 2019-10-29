@@ -20,6 +20,4 @@ namespace BHFGG_ATM
             }
         }
     }
-
-
 }
