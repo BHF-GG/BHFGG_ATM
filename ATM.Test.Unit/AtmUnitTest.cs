@@ -17,17 +17,6 @@ using TransponderReceiver;
 namespace ATM.Test.Unit
 {
     [TestFixture]
-    public class AtmUnitTest
-    {
-        
-        [SetUp]
-        public void SetUp()
-        {
-
-        }
-    }
-
-    [TestFixture]
     public class ConditionCheckerUnitTest
     {
         private ConditionChecker _uut;

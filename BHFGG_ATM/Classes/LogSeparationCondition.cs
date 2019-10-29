@@ -13,7 +13,8 @@ namespace BHFGG_ATM.Classes
     {
         public LogSeparationCondition()
         {
-
+            if (!System.IO.Directory.Exists(@"C:\Logs"))
+                System.IO.Directory.CreateDirectory(@"C:\Logs");
         }
         public void LogCondition(Condition c)
         {
