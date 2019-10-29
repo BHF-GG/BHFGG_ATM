@@ -10,6 +10,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TransponderReceiver;
 using Assert = NUnit.Framework.Assert;
+using ATM = BHFGG_ATM.Classes.ATM;
 
 
 namespace ATM.Test.Unit
@@ -90,7 +91,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display()
+        public void Integration_Display()
         {
             filter = Substitute.For<IFilter>();
             conditionChecker = Substitute.For<IConditionChecker>();
@@ -105,7 +106,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display_ConditionChecker()
+        public void Integration_Display_ConditionChecker()
         {
             filter = Substitute.For<IFilter>();
             conditionChecker = new ConditionChecker(5000,300,filter);
@@ -119,7 +120,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display_ConditionChecker_AirSpaceFilter()
+        public void Integration_Display_ConditionChecker_AirSpaceFilter()
         {
             stringFormatter = Substitute.For<IStringFormatter>();
             filter = new AirspaceFilter(stringFormatter);
@@ -134,7 +135,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display_ConditionChecker_AirSpaceFilter_StringFormatter()
+        public void Integration_Display_ConditionChecker_AirSpaceFilter_StringFormatter()
         {
             transponderR = Substitute.For<ITransponderReceiver>();
             compassCourseCalculator = Substitute.For<ICompassCourseCalculator>();
@@ -152,6 +153,9 @@ namespace ATM.Test.Unit
             transponderData.Add("T4;39045;29000;12000;20191029154852789");
 
             transponderR.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(transponderData));
+
+            Assert.That(display.ListOfTracksToDisplay.ElementAt(0).Tag, Is.EqualTo("T1"));
+            Assert.That(display.ListOfTracksToDisplay.ElementAt(3).PositionX, Is.EqualTo(39045));
         }
     }
 
