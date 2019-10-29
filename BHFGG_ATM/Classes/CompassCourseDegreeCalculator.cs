@@ -13,6 +13,7 @@ namespace BHFGG_ATM.Classes
     {
         public double CalculateCompassCourse(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
+            
             double course = Math.Atan2(newPointX - oldPointX, newPointY - oldPointY);
 
             // convert to 0-360 compass degrees, North = 0
@@ -26,6 +27,6 @@ namespace BHFGG_ATM.Classes
             throw new InvalidDataException("Output data not valid");
 
         }
-
+        
     }
 }

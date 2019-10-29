@@ -673,6 +673,8 @@ namespace ATM.Test.Unit
         public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
             //Act and Assert:
+
+            //This is not okay!
             Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
         }
     }
