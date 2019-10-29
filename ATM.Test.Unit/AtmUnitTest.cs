@@ -188,7 +188,101 @@ namespace ATM.Test.Unit
     }
 
     #region Bertrams tests
+    //Displaying data tests
     [TestFixture]
+    public class DisplayUnitTest
+    {
+        private DataFilteredEventArgs _receivedEventArgs;
+
+        private Display _uut;
+
+        private IFilter _fakeFilter;
+
+        private Track _track1;
+        private Track _track2;
+        private Track _track3;
+        private Track _track4;
+        private List<Track> _tracklist;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _receivedEventArgs = null;
+         
+            _track1 = new Track();
+            _track2 = new Track();
+            _track3 = new Track();
+            _track4 = new Track();
+            _tracklist = new List<Track>();
+
+            //Making fakes (Stubs and mocks)
+            _fakeFilter = Substitute.For<IFilter>();
+
+            _uut = new Display(_fakeFilter);
+        }
+
+        [Test]
+        public void HandleDataFiltered_EventReceived_DisplayAllTracks()
+        {
+            _track1.PositionX = 50000;
+            _track1.PositionY = 50000;
+
+            _track2.PositionX = 40000;
+            _track2.PositionY = 40000;
+
+            _tracklist.Add(_track1);
+            _tracklist.Add(_track2);
+
+            // Act: Trigger the fake object to execute event invocation
+            _fakeFilter.DataFilteredEvent += Raise.EventWith(this, new DataFilteredEventArgs{DataFiltered = _tracklist});
+
+            // Assert something here or use an NSubstitute Received
+            Assert.That(_uut.ListOfTracksToDisplay, Is.EqualTo(_tracklist));
+        }
+    }
+
+    //Displaying data tests
+    [TestFixture]
+    public class DisplayConditionUnitTest
+    {
+        private ConditionCheckedEventArgs _receivedEventArgs;
+
+        private DisplaySeparator _uut;
+
+        private IConditionChecker _fakeConditionChecker;
+        private IFilter _fakeFilter;
+
+        private Track _track1;
+        private Track _track2;
+        private Track _track3;
+        private Track _track4;
+        private List<Track> _tracklist;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _track1 = new Track();
+            _track2 = new Track();
+            _track3 = new Track();
+            _track4 = new Track();
+            _tracklist = new List<Track>();
+
+            //Making fakes (Stubs and mocks)
+            _fakeConditionChecker = Substitute.For<IConditionChecker>();
+            _fakeFilter = Substitute.For<IFilter>();
+
+            _uut = new DisplaySeparator(_fakeFilter, _fakeConditionChecker);
+        }
+
+        //[Test]
+        //public void DisplayCondition_TwoTracksAdded_DisplayOneCondition()
+        //{
+
+        //}
+    }
+
+    //Datafilter tests
+    [TestFixture] 
     public class FilteredDataUnitTest
     {
         private DataFilteredEventArgs _receivedEventArgs;
@@ -238,6 +332,21 @@ namespace ATM.Test.Unit
 
             _uut.FilterData(_tracklist);
             Assert.That(_receivedEventArgs, Is.Not.Null);
+        }
+
+        [Test]
+        public void HandleDataFilteredEvent_EventReceived()
+        {
+            _track1.PositionX = 50000;
+            _track1.PositionY = 50000;
+
+            _tracklist.Add(_track1);
+
+            // Act: Trigger the fake object to execute event invocation
+            _fakeFormatter.DataFormattedEvent += Raise.EventWith(this, new DataFormattedEventArgs{DataFormatted = _tracklist});
+
+            // Assert something here or use an NSubstitute Received
+            Assert.That(_uut.CurrentListOfTracks, Is.EqualTo(_tracklist));
         }
 
         [Test]

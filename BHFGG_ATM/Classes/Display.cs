@@ -8,9 +8,9 @@ using BHFGG_ATM.Interfaces;
 
 namespace BHFGG_ATM.Classes
 {
-    public abstract class Display : IDisplay
+    public class Display : IDisplay
     {
-        private List<Track> ListOfTracksToDisplay;
+        public List<Track> ListOfTracksToDisplay { get; set; }
 
         public void DisplayTracks(List<Track> trackList)
         {
@@ -20,11 +20,12 @@ namespace BHFGG_ATM.Classes
             }
         }
 
-        public abstract void DisplayConditions(List<Condition> conditionList);
+        public virtual void DisplayConditions(List<Condition> conditionList) { }
 
-        protected Display(IFilter filteredData)
+        public Display(IFilter filteredData)
         {
             filteredData.DataFilteredEvent += HandleDataFilteredEvent;
+            ListOfTracksToDisplay = new List<Track>();
         }
 
         private void HandleDataFilteredEvent(object sender, DataFilteredEventArgs e)
