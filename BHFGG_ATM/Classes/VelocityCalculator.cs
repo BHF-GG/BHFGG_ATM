@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using BHFGG_ATM.Interfaces;
 
 namespace BHFGG_ATM.Classes
@@ -33,17 +34,37 @@ namespace BHFGG_ATM.Classes
             int hour = System.Convert.ToInt32(timestamp.Substring(8, 2));
             int minute = System.Convert.ToInt32(timestamp.Substring(10, 2));
             int second = System.Convert.ToInt32(timestamp.Substring(12, 2));
-            int milisecond = System.Convert.ToInt32(timestamp.Substring(13, 3));
+            int millisecond = System.Convert.ToInt32(timestamp.Substring(14, 3));
 
-            DateTime date = new DateTime(year, month, day, hour, minute, second, milisecond);
-
-            return date;
+            if(0 <= year
+                            && 1 <= month && month <= 12 
+                            && 1 <= day && day <= 31 
+                            && 0 <= hour && hour <= 23 
+                            && 0 <= minute && minute <= 59 
+                            && 0 <= second && second <= 59 
+                            && 0 <= millisecond && millisecond <= 999)
+            {
+                DateTime date = new DateTime(year, month, day, hour, minute, second, millisecond);
+                return date;
+            }
+            else
+            {
+                throw new InvalidDataException("Time stamp not a valid date");
+            }
         }
 
         public double CalculateSecondsBetweenDates(DateTime oldDate, DateTime newDate)
         {
             TimeSpan interval = newDate - oldDate;
-            return interval.TotalSeconds;
+
+            if (interval.TotalSeconds >= 0)
+            {
+                return interval.TotalSeconds;
+            }
+            else
+            {
+                throw new ArgumentException("oldDate is more recent than newDate");
+            }
         }
     }
 }
