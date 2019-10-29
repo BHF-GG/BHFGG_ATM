@@ -8,7 +8,6 @@ using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
-using NUnit.Framework.Internal.Execution;
 using TransponderReceiver;
 using Assert = NUnit.Framework.Assert;
 
@@ -16,14 +15,120 @@ using Assert = NUnit.Framework.Assert;
 namespace ATM.Test.Unit
 {
     [TestFixture]
-    public class AtmUnitTest
+    public class AtmIntegrationTest
     {
+        private DisplaySeparator display;
+        private IConditionChecker conditionChecker;
+        private IFilter filter;
+        private IStringFormatter stringFormatter;
+        private ITransponderReceiver transponderReceiver;
         private BHFGG_ATM.Classes.ATM _uut;
+
+        private List<Track> tracks;
+        private Track track1;
+        private Track track2;
+        private Track track3;
+        private Track track4;
+        private int trackNumber = 1;
+
+        private List<Condition> conditions;
+        private Separation sep1;
+        private Separation sep2;
+        private Separation sep3;
+        private Separation sep4;
+        private int separationNumber = 1;
+
+        private void trackSetup(Track track)
+        {
+            track.Altitude = trackNumber * +300;
+            track.PositionX = trackNumber + 20000;
+            track.PositionY = trackNumber + 40000;
+            track.Tag = trackNumber.ToString();
+            track.Timestamp = DateTime.Now.ToString();
+            trackNumber++;
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            tracks = new List<Track>();
+            track1 = new Track();
+            track2 = new Track();
+            track3 = new Track();
+            track4 = new Track();
+            tracks.Add(track1);
+            tracks.Add(track2);
+            tracks.Add(track3);
+            tracks.Add(track4);
+
+            foreach (var track in tracks)
+            {
+                trackSetup(track);
+            }
+
+            trackNumber = 1;
+
+            sep1 = new Separation(track1, track2,1,new LogSeparationCondition());
+            sep2 = new Separation(track1, track3, 2, new LogSeparationCondition());
+            sep3 = new Separation(track2, track4, 3, new LogSeparationCondition());
+            sep4 = new Separation(track3, track4, 4, new LogSeparationCondition());
+
+            conditions = new List<Condition>();
+            conditions.Add(sep1);
+            conditions.Add(sep2);
+            conditions.Add(sep3);
+            conditions.Add(sep4);
+
+        }
 
         [TestCase(5000,300)]
         public void ATMConstructorTest(int d, int a)
         {
             _uut = new BHFGG_ATM.Classes.ATM(d, a);
+        }
+
+        [Test]
+        public void ATM_Display()
+        {
+            filter = Substitute.For<IFilter>();
+            conditionChecker = Substitute.For<IConditionChecker>();
+            display = new DisplaySeparator(filter, conditionChecker);
+
+            filter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs() {DataFiltered = tracks});
+            conditionChecker.ConditionsCheckedEvent += Raise.EventWith(new ConditionCheckedEventArgs()
+                {ConditionsChecked = conditions});
+
+            Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo(conditions));
+            Assert.That(display.ListOfTracksToDisplay,Is.EqualTo(tracks));
+        }
+
+        [Test]
+        public void ATM_Display_ConditionChecker()
+        {
+            filter = Substitute.For<IFilter>();
+            conditionChecker = new ConditionChecker(5000,300,filter);
+            display = new DisplaySeparator(filter,conditionChecker);
+
+            filter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs() { DataFiltered = tracks });
+
+            //Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo());
+            Assert.That(display.ListOfTracksToDisplay, Is.EqualTo(tracks));
+
+        }
+
+        [Test]
+        public void ATM_Display_ConditionChecker_AirSpaceFilter()
+        {
+            stringFormatter = Substitute.For<IStringFormatter>();
+            filter = new AirspaceFilter(stringFormatter);
+            conditionChecker = new ConditionChecker(5000, 300, filter);
+            display = new DisplaySeparator(filter, conditionChecker);
+
+            stringFormatter.DataFormattedEvent +=
+                Raise.EventWith(new DataFormattedEventArgs() {DataFormatted = tracks});
+
+            //Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo());
+            Assert.That(display.ListOfTracksToDisplay, Is.EqualTo(tracks));
         }
     }
 
@@ -465,8 +570,6 @@ namespace ATM.Test.Unit
         private ICompassCourseCalculator _fakeCompassCourseCalculator;
         private IVelocityCalculator _fakeVelocityCalculator;
 
-        private DataFormattedEventArgs _receivedEventArgs;
-
         private StringFormatter _uut;
 
 
@@ -480,15 +583,6 @@ namespace ATM.Test.Unit
 
             // Inject the fake StringFormatter
             _uut = new StringFormatter(_fakeTransponderReceiver,_fakeCompassCourseCalculator,_fakeVelocityCalculator);
-
-            _receivedEventArgs = null;
-
-            //Fake Event Handler
-            _uut.DataFormattedEvent += (o, args) =>
-            {
-                _receivedEventArgs = args;
-            };
-
         }
 
         [Test]
@@ -506,22 +600,6 @@ namespace ATM.Test.Unit
 
             // Assert:
             Assert.That(_uut.CurrentTransponderData,Is.EqualTo(testData));
-        }
-
-        [Test]
-        public void FormatData_EventRaised_OK()
-        {
-            //Arrange:
-            List<string> testData = new List<string>();
-            testData.Add("ATR423;39045;12932;14000;20151006213456789");
-            testData.Add("BCD123;10005;85890;12000;20151006213456789");
-            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
-
-            //Act:
-            _uut.FormatData(testData);
-
-            //Assert:
-            Assert.That(_receivedEventArgs, Is.Not.Null);
         }
     }
 
@@ -549,7 +627,6 @@ namespace ATM.Test.Unit
             //Act and Assert:
             Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
         }
-
     }
 
     #endregion

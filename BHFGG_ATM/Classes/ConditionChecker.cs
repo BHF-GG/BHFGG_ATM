@@ -87,7 +87,5 @@ namespace BHFGG_ATM.Classes
         {
             CheckCondition(e.DataFiltered);
         }
-
-        
     }
 }
