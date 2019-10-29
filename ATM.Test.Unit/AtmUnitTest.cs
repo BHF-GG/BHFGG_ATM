@@ -498,34 +498,40 @@ namespace ATM.Test.Unit
             // Assert:
             Assert.That(_uut.CurrentTransponderData,Is.EqualTo(testData));
         }
+
+        [Test]
+        public void FormatData_Something_OK()
+        {
+
+        }
     }
 
-    //#endregion
+    #endregion
 
-    //#region CompassCourseDegreeCalvulator
+    #region CompassCourseDegreeCalvulator
 
-    //[TestFixture]
-    //public class CompassCourseDegreeCalculatorUnitTest
-    //{
-    //    private CompassCourseDegreeCalculator _uut;
+    [TestFixture]
+    public class CompassCourseDegreeCalculatorUnitTest
+    {
+        private CompassCourseDegreeCalculator _uut;
 
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        _uut = new CompassCourseDegreeCalculator();
-    //    }
+        [SetUp]
+        public void SetUp()
+        {
+            _uut = new CompassCourseDegreeCalculator();
+        }
 
-    //    [TestCase(10,20,30,50)]
-    //    [TestCase(-5, 20, -10, 30)]
-    //    [TestCase(4, -80, -30.33, 50)]
-    //    [TestCase(-10, -20, -30, -50)]
-    //    public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY,double newPointX,double newPointY)
-    //    {
-    //        //Act and Assert:
-    //        Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
-    //    }
-        
-    //}
+        [TestCase(10, 20, 30, 50)]
+        [TestCase(-5, 20, -10, 30)]
+        [TestCase(4, -80, -30.33, 50)]
+        [TestCase(-10, -20, -30, -50)]
+        public void CalculateCompassCourse_CornerCaseInput_OutputOK(double oldPointX, double oldPointY, double newPointX, double newPointY)
+        {
+            //Act and Assert:
+            Assert.DoesNotThrow(() => _uut.CalculateCompassCourse(oldPointX, oldPointY, newPointX, newPointY));
+        }
+
+    }
 
     #endregion
 
