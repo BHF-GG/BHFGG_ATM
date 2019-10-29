@@ -13,19 +13,14 @@ namespace BHFGG_ATM.Classes
     {
         public double CalculateCompassCourse(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
+            
             double course = Math.Atan2(newPointX - oldPointX, newPointY - oldPointY);
 
             // convert to 0-360 compass degrees, North = 0
             course = (450 - (int)course) % 359;
 
-            if (course >= 0 && course <= 359)
-            {
-                return course;
-            }
-
-            throw new InvalidDataException("Output data not valid");
-
+            return course;
         }
-
+        
     }
 }
