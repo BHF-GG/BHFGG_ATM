@@ -513,7 +513,7 @@ namespace ATM.Test.Unit
             _uut.FilterData(_tracklist);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
-
+        /*
         [Test]
         public void HandleDataFilteredEvent_EventReceived()
         {
@@ -527,7 +527,7 @@ namespace ATM.Test.Unit
 
             // Assert something here or use an NSubstitute Received
             Assert.That(_uut.CurrentListOfTracks, Is.EqualTo(_tracklist));
-        }
+        }*/
 
         [Test]
         public void FilteredData_FourTracksAdded_TwoTracksFiltered()
