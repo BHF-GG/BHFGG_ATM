@@ -17,7 +17,7 @@ namespace BHFGG_ATM.Classes
             foreach (var track in conditionList)
             {
                 Separation sep = (Separation) track;
-                Console.WriteLine($"Condition: {sep.Type}          Timestamp: {sep.Timestamp}");
+                Console.WriteLine($"ID: {sep.Id}          Condition: {sep.Type}          Timestamp: {sep.Timestamp}");
             }
         }
 

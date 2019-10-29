@@ -184,11 +184,14 @@ namespace ATM.Test.Unit
 
         private IFilter _fakeFilter;
 
+
         private Track _track1;
         private Track _track2;
         private Track _track3;
         private Track _track4;
         private List<Track> _tracklist;
+
+        private List<Condition> _sepList;
 
         [SetUp]
         public void SetUp()
@@ -205,16 +208,18 @@ namespace ATM.Test.Unit
             _fakeFilter = Substitute.For<IFilter>();
 
             _uut = new Display(_fakeFilter);
+
+            _sepList = new List<Condition>();
         }
 
-        [Test]
-        public void HandleDataFiltered_EventReceived_DisplayAllTracks()
+        [TestCase(50000, 50000, 40000, 40000)]
+        public void HandleDataFiltered_EventReceived_DisplayAllTracks(double a1, double a2, double a3, double a4)
         {
-            _track1.PositionX = 50000;
-            _track1.PositionY = 50000;
+            _track1.PositionX = a1;
+            _track1.PositionY = a2;
 
-            _track2.PositionX = 40000;
-            _track2.PositionY = 40000;
+            _track2.PositionX = a3;
+            _track2.PositionY = a4;
 
             _tracklist.Add(_track1);
             _tracklist.Add(_track2);
@@ -225,6 +230,13 @@ namespace ATM.Test.Unit
             // Assert something here or use an NSubstitute Received
             Assert.That(_uut.ListOfTracksToDisplay, Is.EqualTo(_tracklist));
         }
+
+        //[Test]
+        //public void DisplayCondition_MethodDoesNothing()
+        //{
+        //    _uut.DisplayConditions(_sepList);
+        //    Assert.That();
+        //}
     }
 
     //Displaying data tests
@@ -256,10 +268,6 @@ namespace ATM.Test.Unit
             _track2 = new Track();
             _track3 = new Track();
 
-            //_sep1 = new Separation(_track1, _track2, _fakeLogCondition);
-            //_sep2 = new Separation(_track1, _track2, _fakeLogCondition);
-            //_sep3 = new Separation(_track1, _track2, _fakeLogCondition);
-
             _sepList = new List<Condition>();
 
             //Making fakes (Stubs and mocks)
@@ -271,7 +279,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void DisplayCondition_TwoTracksAdded_DisplayOneCondition()
+        public void DisplayCondition_ThreeConditionAdded_DisplayConditions()
         {
             _track1.PositionX = 50000;
             _track1.PositionY = 50000;
@@ -282,9 +290,9 @@ namespace ATM.Test.Unit
             _track3.PositionX = 50002;
             _track3.PositionY = 50002;
 
-            _sep1 = new Separation(_track1, _track2,1, _fakeLogCondition);
-            _sep2 = new Separation(_track1, _track3,2, _fakeLogCondition);
-            _sep3 = new Separation(_track2, _track3,3, _fakeLogCondition);
+            _sep1 = new Separation(_track1, _track2, _fakeLogCondition);
+            _sep2 = new Separation(_track1, _track3, _fakeLogCondition);
+            _sep3 = new Separation(_track2, _track3, _fakeLogCondition);
 
             _sepList.Add(_sep1);
             _sepList.Add(_sep2);
