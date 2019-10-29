@@ -62,9 +62,6 @@ namespace ATM.Test.Unit
             if (System.IO.Directory.Exists("C:/Logs"))
                 System.IO.Directory.Delete("C:/Logs",true);
 
-            if (System.IO.Directory.Exists("C:/Henrik"))
-                System.IO.Directory.Delete("C:/Henrik");
-
             Assert.That(System.IO.Directory.Exists("C:/Logs"), Is.False);
         }
 
