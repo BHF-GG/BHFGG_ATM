@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using ATM.Test.Unit.Fakes;
 using BHFGG_ATM.Classes;
 using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;
 using TransponderReceiver;
 using Assert = NUnit.Framework.Assert;
@@ -535,7 +527,7 @@ namespace ATM.Test.Unit
         
     //}
 
-    //#endregion
+    #endregion
 
     #region VelocityCalculator
 
@@ -566,7 +558,6 @@ namespace ATM.Test.Unit
         [TestCase("20191215743449108")]
         [TestCase("20191215327449108")]
         [TestCase("20191215323474108")]
-        [ExpectedException(typeof(InvalidDataException))]
         public void ConvertStringTimestampToDateTime_InputStringInvalid_ThrowException(string timeStamp)
         {
             //Act and Assert:
