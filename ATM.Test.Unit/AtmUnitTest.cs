@@ -666,8 +666,10 @@ namespace ATM.Test.Unit
             Assert.That(() => { _uut.ConvertStringTimestampToDateTime(timeStamp); }, Throws.TypeOf<InvalidDataException>());
         }
 
-        [TestCase(456,234,897,997, "20191215223234491", "20191215225234491")]
-        public void CalculateCurrentVelocity(double oldPointX, double oldPointY, double newPointX, double newPointY,string oldTime,string newTime)
+        [TestCase(1000, 1000, 1000, 1000, "20191215223234491", "20191215223235491",0)]
+        [TestCase(1000, 1000, 1100, 1000, "20191215223234491", "20191215223235491", 100)]
+        [TestCase(1000, -2000, 1000, 1000, "20191215223234491", "20191215223244491", 300)]
+        public void CalculateCurrentVelocity(double oldPointX, double oldPointY, double newPointX, double newPointY,string oldTime,string newTime,double expectedVelocity)
         {
             //Act:
             Track oldTrack = new Track();
@@ -681,14 +683,14 @@ namespace ATM.Test.Unit
             string oldTimestamp = oldTime;
             string newTimestamp = newTime;
 
-            //Assert:
-            _uut.CalculateCurrentVelocity(oldTrack.PositionX, 
+            double actualVelocity=_uut.CalculateCurrentVelocity(oldTrack.PositionX, 
                 oldTrack.PositionY, 
                 newTrack.PositionX,
                 newTrack.PositionY,
                 oldTimestamp,newTimestamp);
 
-            //What to do?
+            //Assert:
+            Assert.AreEqual(expectedVelocity,actualVelocity);
 
         }
 
