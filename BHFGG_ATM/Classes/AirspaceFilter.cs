@@ -11,7 +11,8 @@ namespace BHFGG_ATM.Classes
     public class AirspaceFilter : IFilter
     {
         #region Attributes and Properties
-        public List<Track> CurrentListOfTracks { get; set; }
+
+        public List<Track> CurrentListOfTracks;
 
         private double LowerBoundary = 500;
         private double UpperBoundary = 20000;
