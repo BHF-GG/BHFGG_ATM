@@ -182,6 +182,7 @@ namespace ATM.Test.Unit
 
     }
 
+    #region Bertrams tests
     [TestFixture]
     public class FilteredDataUnitTest
     {
@@ -264,6 +265,7 @@ namespace ATM.Test.Unit
             Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
         }
     }
+    #endregion
 
     #region Frands' test
 
