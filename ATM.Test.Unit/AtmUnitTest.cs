@@ -282,9 +282,9 @@ namespace ATM.Test.Unit
             _track3.PositionX = 50002;
             _track3.PositionY = 50002;
 
-            _sep1 = new Separation(_track1, _track2, _fakeLogCondition);
-            _sep2 = new Separation(_track1, _track3, _fakeLogCondition);
-            _sep3 = new Separation(_track2, _track3, _fakeLogCondition);
+            _sep1 = new Separation(_track1, _track2,1, _fakeLogCondition);
+            _sep2 = new Separation(_track1, _track3,2, _fakeLogCondition);
+            _sep3 = new Separation(_track2, _track3,3, _fakeLogCondition);
 
             _sepList.Add(_sep1);
             _sepList.Add(_sep2);

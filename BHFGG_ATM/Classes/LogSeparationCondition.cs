@@ -11,6 +11,7 @@ namespace BHFGG_ATM.Classes
 {
     public class LogSeparationCondition : ILogCondition
     {
+
         public LogSeparationCondition()
         {
             if (!System.IO.Directory.Exists(@"C:\Logs"))
@@ -21,7 +22,7 @@ namespace BHFGG_ATM.Classes
             Separation sep = (Separation) c;
             using (System.IO.StreamWriter file = File.AppendText(@"C:\Logs\SeparationLog.txt"))
             {
-                file.WriteLine($"{sep.Timestamp}: New {sep.Type} between: {sep.Tag1} and {sep.Tag2}");
+                file.WriteLine($"{sep.Timestamp}:\t {sep.Type} Start\t ID:{c.Id}\t between:\t {sep.Tag1}\t and {sep.Tag2}");
             }
         }
         //string filename = String.Format("{0:yyyy-MM-dd}__{1}.txt", DateTime.Now,name);
@@ -31,7 +32,7 @@ namespace BHFGG_ATM.Classes
             Separation sep = (Separation)c;
             using (System.IO.StreamWriter file = File.AppendText(@"C:\Logs\SeparationLog.txt"))
             {
-                file.WriteLine($"{sep.Timestamp}: Ended {sep.Type} between: {sep.Tag1} and {sep.Tag2}");
+                file.WriteLine($"{sep.Timestamp}:\t {sep.Type} Ended\t ID:{c.Id}\t  between:\t {sep.Tag1}\t and {sep.Tag2}");
             }
         }
     }

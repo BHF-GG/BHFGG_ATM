@@ -16,12 +16,13 @@ namespace BHFGG_ATM.Classes
         public string Tag2 { get; private set; }
         
 
-        public Separation(Track t1, Track t2, ILogCondition log = null)
+        public Separation(Track t1, Track t2, int id, ILogCondition log = null)
         {
             Type = "Separation";
             Timestamp = t1.Timestamp;
             Tag1 = t1.Tag;
             Tag2 = t2.Tag;
+            Id = id.ToString();
             if (log == null)
                 LogCondition = new LogSeparationCondition();
 
