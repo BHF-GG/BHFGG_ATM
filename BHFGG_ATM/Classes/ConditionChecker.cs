@@ -38,7 +38,6 @@ namespace BHFGG_ATM.Classes
                              (separation.Tag1 == t.Tag || separation.Tag2 == t.Tag))))
                     {
                         validCondition = false;
-                        
                     }
                     if (validCondition)
                         _conditions.Add(new Separation(track, t, new LogSeparationCondition()));
