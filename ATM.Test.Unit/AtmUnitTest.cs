@@ -49,6 +49,8 @@ namespace ATM.Test.Unit
             _track2 = new Track();
             _track2.Tag = "2";
             _tracks = new List<Track>();
+            _track1.Timestamp = DateTime.Now.ToString();
+            _track2.Timestamp = DateTime.Now.ToString();
 
             _uut = new ConditionChecker(5000,300, _fakeFilter);
 
