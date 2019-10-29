@@ -26,7 +26,7 @@ namespace BHFGG_ATM.Classes
         public Display(IFilter filteredData)
         {
             filteredData.DataFilteredEvent += HandleDataFilteredEvent;
-            ListOfTracksToDisplay = new List<Track>();
+            //ListOfTracksToDisplay = new List<Track>();
         }
 
         private void HandleDataFilteredEvent(object sender, DataFilteredEventArgs e)
