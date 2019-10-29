@@ -20,6 +20,8 @@ namespace BHFGG_ATM.Classes
         public void LogCondition(Condition c)
         {
             Separation sep = (Separation) c;
+            if (!System.IO.Directory.Exists(@"C:\Logs"))
+                System.IO.Directory.CreateDirectory(@"C:\Logs");
             using (System.IO.StreamWriter file = File.AppendText(@"C:\Logs\SeparationLog.txt"))
             {
                 file.WriteLine($"{sep.Timestamp}:\t {sep.Type} Start\t ID:{c.Id}\t between:\t {sep.Tag1}\t and {sep.Tag2}");
@@ -29,6 +31,8 @@ namespace BHFGG_ATM.Classes
 
         public void LogEndCondition(Condition c)
         {
+            if (!System.IO.Directory.Exists(@"C:\Logs"))
+                System.IO.Directory.CreateDirectory(@"C:\Logs");
             Separation sep = (Separation)c;
             using (System.IO.StreamWriter file = File.AppendText(@"C:\Logs\SeparationLog.txt"))
             {

@@ -40,7 +40,6 @@ namespace ATM.Test.Unit
         //private IFilter _testFilterSource;
         private readonly IFilter _fakeFilter = new FakeFilter();
 
-
         [SetUp]
         public void SetUp()
         {
@@ -58,6 +57,15 @@ namespace ATM.Test.Unit
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
+        }
+
+        [Test]
+        public void CreateFolderTest()
+        {
+            if (System.IO.Directory.Exists("C:/Logs"))
+                System.IO.Directory.Delete("C:/Logs",true);
+
+            Assert.That(System.IO.Directory.Exists("C:/Logs"), Is.False);
         }
 
         [Test]
