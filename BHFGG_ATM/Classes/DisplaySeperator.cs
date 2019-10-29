@@ -18,6 +18,7 @@ namespace BHFGG_ATM.Classes
             {
                 Separation sep = (Separation) track;
                 Console.WriteLine($"ID: {sep.Id}          Condition: {sep.Type}          Timestamp: {sep.Timestamp}");
+                Console.WriteLine($"Tag1: {sep.Tag1}          Tag2: {sep.Tag2}");
             }
         }
 
