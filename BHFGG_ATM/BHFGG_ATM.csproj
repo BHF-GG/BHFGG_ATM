@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AirspaceFilter.cs" />
+    <Compile Include="Classes\ATM.cs" />
     <Compile Include="Classes\CompassCourseDegreeCalculator.cs" />
     <Compile Include="Classes\Condition.cs" />
     <Compile Include="Classes\ConditionChecker.cs" />

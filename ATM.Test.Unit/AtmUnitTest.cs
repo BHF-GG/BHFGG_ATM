@@ -19,7 +19,7 @@ namespace ATM.Test.Unit
     [TestFixture]
     public class AtmUnitTest
     {
-
+        
         [SetUp]
         public void SetUp()
         {
