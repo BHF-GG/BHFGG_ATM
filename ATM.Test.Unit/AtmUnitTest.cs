@@ -10,6 +10,7 @@ using NSubstitute;
 using NUnit.Framework;
 using TransponderReceiver;
 using Assert = NUnit.Framework.Assert;
+using ATM = BHFGG_ATM.Classes.ATM;
 
 
 namespace ATM.Test.Unit
@@ -21,7 +22,9 @@ namespace ATM.Test.Unit
         private IConditionChecker conditionChecker;
         private IFilter filter;
         private IStringFormatter stringFormatter;
-        private ITransponderReceiver transponderReceiver;
+        private ITransponderReceiver transponderR;
+        private ICompassCourseCalculator compassCourseCalculator;
+        private IVelocityCalculator velocityCalculator;
         private BHFGG_ATM.Classes.ATM _uut;
 
         private List<Track> tracks;
@@ -88,7 +91,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display()
+        public void Integration_Display()
         {
             filter = Substitute.For<IFilter>();
             conditionChecker = Substitute.For<IConditionChecker>();
@@ -103,7 +106,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display_ConditionChecker()
+        public void Integration_Display_ConditionChecker()
         {
             filter = Substitute.For<IFilter>();
             conditionChecker = new ConditionChecker(5000,300,filter);
@@ -117,7 +120,7 @@ namespace ATM.Test.Unit
         }
 
         [Test]
-        public void ATM_Display_ConditionChecker_AirSpaceFilter()
+        public void Integration_Display_ConditionChecker_AirSpaceFilter()
         {
             stringFormatter = Substitute.For<IStringFormatter>();
             filter = new AirspaceFilter(stringFormatter);
@@ -130,7 +133,33 @@ namespace ATM.Test.Unit
             //Assert.That(display.ListOfConditionsToDisplay, Is.EqualTo());
             Assert.That(display.ListOfTracksToDisplay, Is.EqualTo(tracks));
         }
+
+        [Test]
+        public void Integration_Display_ConditionChecker_AirSpaceFilter_StringFormatter()
+        {
+            transponderR = Substitute.For<ITransponderReceiver>();
+            compassCourseCalculator = Substitute.For<ICompassCourseCalculator>();
+            velocityCalculator = Substitute.For<IVelocityCalculator>();
+
+            stringFormatter = new StringFormatter(transponderR, compassCourseCalculator,velocityCalculator);
+            filter = new AirspaceFilter(stringFormatter);
+            conditionChecker = new ConditionChecker(5000, 300, filter);
+            display = new DisplaySeparator(filter, conditionChecker);
+
+            List<string> transponderData = new List<string>();
+            transponderData.Add("T1;39045;29000;14000;20191029154852789");
+            transponderData.Add("T2;39030;29030;14020;20191029154852789");
+            transponderData.Add("T3;20045;29000;14000;20191029154852789");
+            transponderData.Add("T4;39045;29000;12000;20191029154852789");
+
+            transponderR.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(transponderData));
+
+            Assert.That(display.ListOfTracksToDisplay.ElementAt(0).Tag, Is.EqualTo("T1"));
+            Assert.That(display.ListOfTracksToDisplay.ElementAt(3).PositionX, Is.EqualTo(39045));
+        }
     }
+
+    #region ConditionChecker
 
     [TestFixture]
     public class ConditionCheckerUnitTest
@@ -156,7 +185,7 @@ namespace ATM.Test.Unit
             _track1.Timestamp = DateTime.Now.ToString();
             _track2.Timestamp = DateTime.Now.ToString();
 
-            _uut = new ConditionChecker(5000,300, _fakeFilter);
+            _uut = new ConditionChecker(5000, 300, _fakeFilter);
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
@@ -166,7 +195,7 @@ namespace ATM.Test.Unit
         public void CreateFolderTest()
         {
             if (System.IO.Directory.Exists("C:/Logs"))
-                System.IO.Directory.Delete("C:/Logs",true);
+                System.IO.Directory.Delete("C:/Logs", true);
 
             Assert.That(System.IO.Directory.Exists("C:/Logs"), Is.False);
         }
@@ -174,12 +203,12 @@ namespace ATM.Test.Unit
         [Test]
         public void SeparationConstructor_WithNullInConstructor()
         {
-            Separation sep = new Separation(_track1,_track2,1);
+            Separation sep = new Separation(_track1, _track2, 1);
 
             Assert.That(sep.Tag1, Is.EqualTo(_track1.Tag));
         }
 
-        [TestCase(400,500,10000,10001,10000,10001)]
+        [TestCase(400, 500, 10000, 10001, 10000, 10001)]
         public void CheckCondition_GeneratesConditionList(double A1, double A2, double x1, double x2, double y1, double y2)
         {
             _track1.Altitude = A1;
@@ -188,20 +217,20 @@ namespace ATM.Test.Unit
             _track1.PositionY = y1;
             _track2.PositionX = x2;
             _track2.PositionY = y2;
-            
+
             _tracks.Add(_track1);
             _tracks.Add(_track2);
 
             _uut.CheckCondition(_tracks);
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
-        
-        [TestCase(400, 500, 10000, 10001, 10000, 10001,3)]
+
+        [TestCase(400, 500, 10000, 10001, 10000, 10001, 3)]
         [TestCase(500, 900, 10000, 10001, 10000, 10001, 1)]
         [TestCase(500, 500, 10000, 90000, 10000, 10001, 1)]
         public void CheckCondition_CorrectAmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int amountOfConditions)
         {
-            var _track3 = new Track {Tag = "3"};
+            var _track3 = new Track { Tag = "3" };
 
             _track1.Altitude = A1;
             _track1.PositionX = x1;
@@ -277,7 +306,7 @@ namespace ATM.Test.Unit
             _track2.PositionX = x2;
             _track2.PositionY = y2;
 
-            Assert.That(_uut.GetDistance(_track1,_track2).Equals(result));
+            Assert.That(_uut.GetDistance(_track1, _track2).Equals(result));
         }
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001)]
@@ -303,6 +332,8 @@ namespace ATM.Test.Unit
         }
 
     }
+
+    #endregion
 
     #region Bertrams tests
     //Displaying data tests
@@ -511,20 +542,6 @@ namespace ATM.Test.Unit
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
 
-        [Test]
-        public void HandleDataFilteredEvent_EventReceived()
-        {
-            _track1.PositionX = 50000;
-            _track1.PositionY = 50000;
-
-            _tracklist.Add(_track1);
-
-            // Act: Trigger the fake object to execute event invocation
-            _fakeFormatter.DataFormattedEvent += Raise.EventWith(this, new DataFormattedEventArgs{DataFormatted = _tracklist});
-
-            // Assert something here or use an NSubstitute Received
-            Assert.That(_uut.CurrentListOfTracks, Is.EqualTo(_tracklist));
-        }
 
         [Test]
         public void FilteredData_FourTracksAdded_TwoTracksFiltered()

@@ -11,7 +11,8 @@ namespace BHFGG_ATM.Classes
     public class AirspaceFilter : IFilter
     {
         #region Attributes and Properties
-        public List<Track> CurrentListOfTracks { get; set; }
+
+        public List<Track> CurrentListOfTracks;
 
         private double LowerBoundary = 500;
         private double UpperBoundary = 20000;
@@ -32,7 +33,7 @@ namespace BHFGG_ATM.Classes
         public void FilterData(List<Track> trackList)
         {
             //Make an empty current list here??????
-            CurrentListOfTracks.Clear();
+   
             //Filtering data here
             foreach (var track in trackList)
             {
@@ -58,7 +59,6 @@ namespace BHFGG_ATM.Classes
         //Handling the event from DataFormatter setting current list of track equal to the received list of tracks
         private void HandleDataFormattedEvent(object sender, DataFormattedEventArgs e)
         {
-            CurrentListOfTracks = e.DataFormatted;
             FilterData(e.DataFormatted);
         }
         #endregion
