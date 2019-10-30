@@ -18,7 +18,8 @@ namespace BHFGG_ATM.Classes
         private List<Track> _tracks;
         private List<Condition> _currentConditions;
         private List<Condition> _newConditions;
-
+        private List<Condition> _tempCondition;
+        private List<Condition> _tempCurrentCondition;
 
         public event EventHandler<ConditionCheckedEventArgs> ConditionsCheckedEvent;
 
@@ -28,6 +29,8 @@ namespace BHFGG_ATM.Classes
             _minimumDistance = minimumDistance;
             _currentConditions = new List<Condition>();
             _newConditions = new List<Condition>();
+            _tempCondition = new List<Condition>();
+            _tempCurrentCondition = new List<Condition>();
             _conditionId = 0;
             filter.DataFilteredEvent += HandleDataFilteredEvent;
         }
@@ -138,30 +141,42 @@ namespace BHFGG_ATM.Classes
 
         private void ValidateConditions()
         {
+            _tempCurrentCondition.Clear();
             foreach (var currentC in _currentConditions)
             {
                 bool remove = false;
                 var currentS = (Separation)currentC;
+                _tempCondition.Clear();
                 foreach (var newC in _newConditions)
                 {
                     var newS = (Separation)newC;
                     if (((newS.Tag1 == currentS.Tag1) || (newS.Tag1 == currentS.Tag2)) &&
                         ((newS.Tag2 == currentS.Tag1) || (newS.Tag2 == currentS.Tag2)))
                     {
-                        _newConditions.Remove(newC);
+                        _tempCondition.Add(newC);
                         remove = false;
-                        //break;
                     }
                     else
                     {
                         remove = true;
                     }
                 }
+                foreach (var condition in _tempCondition)
+                {
+                    if (_newConditions.Contains(condition))
+                        _newConditions.Remove(condition);
+                }
 
                 if (remove)
                 {
-                    _currentConditions.Remove(currentC);
+                    _tempCurrentCondition.Add(currentC);
                 }
+            }
+
+            foreach (var condition in _tempCurrentCondition)
+            {
+                if (_currentConditions.Contains(condition))
+                    _currentConditions.Remove(condition);
             }
 
             foreach (var newC in _newConditions)

@@ -13,7 +13,7 @@ namespace BHFGG_ATM
     {
         static void Main(string[] args)
         {
-            ATM atm1 = new ATM(5000,300);
+            ATM atm1 = new ATM(50000,3000);
             while (true)
             {
                 Thread.Sleep(10);

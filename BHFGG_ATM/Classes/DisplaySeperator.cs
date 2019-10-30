@@ -18,7 +18,7 @@ namespace BHFGG_ATM.Classes
             {
                 Separation sep = (Separation) track;
                 Console.WriteLine(
-                    $"ID: {sep.Id}\t Condition: {sep.Type}\t Timestamp: {sep.Timestamp} ----- {sep.Type} betweeen Tag1: {sep.Tag1} Tag2: {sep.Tag2}");
+                    $"--------------------------------------------------------------\n---------------------------------------------------------------------\nID: {sep.Id}\t Condition: {sep.Type}\t Timestamp: {sep.Timestamp} ----- {sep.Type} betweeen Tag1: {sep.Tag1} Tag2: {sep.Tag2}");
             }
         }
 
