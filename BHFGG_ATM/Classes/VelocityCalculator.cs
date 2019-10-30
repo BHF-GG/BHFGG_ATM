@@ -9,14 +9,14 @@ namespace BHFGG_ATM.Classes
         public double CalculateCurrentVelocity(double oldPointX, double oldPointY, double newPointX, double newPointY,
             string oldTimestamp, string newTimestamp)
         {
-            //Er ikke sikker på afstanden bliver i meter her.
+            //Calculate distance between points
             double distance = Math.Sqrt(Math.Pow((newPointX - oldPointX), 2) + Math.Pow((newPointY - oldPointY), 2));
 
-            //Calculate seconds from timestamp  (”yyyymmddhhmmssfff”)
+            //Convert strings to datetimes
             DateTime oldDate = ConvertStringTimestampToDateTime(oldTimestamp);
             DateTime newDate = ConvertStringTimestampToDateTime(newTimestamp);
 
-            //Calculate seconds between two dates
+            //Calculate seconds between two datetimes
             double timeinSeconds = CalculateSecondsBetweenDates(oldDate, newDate);
 
             //Calculate velocity
