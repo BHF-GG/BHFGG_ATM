@@ -309,27 +309,27 @@ namespace ATM.Test.Unit
             Assert.That(_uut.GetDistance(_track1, _track2).Equals(result));
         }
 
-        [TestCase(400, 500, 10000, 10001, 10000, 10001)]
-        public void DataFilteredEvent_Received(double A1, double A2, double x1, double x2, double y1, double y2)
-        {
-            _track1.Tag = "Track1";
-            _track2.Tag = "Track2";
-            _track1.Altitude = A1;
-            _track2.Altitude = A2;
-            _track1.PositionX = x1;
-            _track1.PositionY = y1;
-            _track2.PositionX = x2;
-            _track2.PositionY = y2;
+        //[TestCase(400, 500, 10000, 10001, 10000, 10001)]
+        //public void DataFilteredEvent_Received(double A1, double A2, double x1, double x2, double y1, double y2)
+        //{
+        //    _track1.Tag = "Track1";
+        //    _track2.Tag = "Track2";
+        //    _track1.Altitude = A1;
+        //    _track2.Altitude = A2;
+        //    _track1.PositionX = x1;
+        //    _track1.PositionY = y1;
+        //    _track2.PositionX = x2;
+        //    _track2.PositionY = y2;
 
-            _tracks.Add(_track1);
-            _tracks.Add(_track2);
+        //    _tracks.Add(_track1);
+        //    _tracks.Add(_track2);
 
-            _fakeFilter.FilterData(_tracks);
+        //    _fakeFilter.FilterData(_tracks);
 
-            var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
-            Assert.That(separationToCheck.Tag1 , Is.EqualTo(("Track1")));
-            Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
-        }
+        //    var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
+        //    Assert.That(separationToCheck.Tag1 , Is.EqualTo(("Track1")));
+        //    Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
+        //}
 
     }
 

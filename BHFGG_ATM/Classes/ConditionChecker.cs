@@ -27,7 +27,7 @@ namespace BHFGG_ATM.Classes
         {
             _minimumAltitude = minimumAltitude;
             _minimumDistance = minimumDistance;
-            _currentConditions = new List<Condition>();
+            _currentConditions = new List<Condition>(); 
             _newConditions = new List<Condition>();
             _tempCondition = new List<Condition>();
             _tempCurrentCondition = new List<Condition>();

@@ -44,7 +44,7 @@ namespace BHFGG_ATM.Classes
 
         protected virtual void DisplayTracksAndConditions()
         {
-            //Console.Clear();
+            //Console.Clear(); 
             DisplayTracks(ListOfTracksToDisplay);
         }
     }
