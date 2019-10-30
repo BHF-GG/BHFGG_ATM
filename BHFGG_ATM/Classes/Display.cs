@@ -10,14 +10,15 @@ namespace BHFGG_ATM.Classes
 {
     public class Display : IDisplay
     {
-        public List<Track> ListOfTracksToDisplay { get; set; }
+        public List<Track> ListOfTracksToDisplay;// { get; set; }
 
         public void DisplayTracks(List<Track> trackList)
         {
             foreach (var track in trackList)
             {
-                Console.WriteLine($"Tag: {track.Tag}          X-coordinate: {track.PositionX}          Y-coordinate: {track.PositionY}          Altitude: {track.Altitude}          Timestamp: {track.Timestamp}" +
-                                  $"          Horizontal Velocity: {track.HorizontalVelocity}          Current Compass course: {track.CompassCourse}");
+                Console.WriteLine(
+                    $"Tag: {track.Tag}\t PositionXY: ({track.PositionX}\t {track.PositionY})\t Altitude: {track.Altitude} m\t Timestamp: {track.Timestamp}\t " +
+                    $"Horizontal Velocity: {track.HorizontalVelocity} m/s\t Current compass course: {track.CompassCourse} degrees");
             }
         }
 
@@ -25,7 +26,7 @@ namespace BHFGG_ATM.Classes
 
         public Display(IFilter filteredData)
         {
-            Console.Clear();
+            ListOfTracksToDisplay = new List<Track>();
             filteredData.DataFilteredEvent += HandleDataFilteredEvent;
             //ListOfTracksToDisplay = new List<Track>();
         }
@@ -34,6 +35,13 @@ namespace BHFGG_ATM.Classes
         {
             //Handle event from DataFiltered
             ListOfTracksToDisplay = e.DataFiltered;
+            //DisplayTracks(ListOfTracksToDisplay); 
+            DisplayTracksAndConditions();
+        }
+
+        protected virtual void DisplayTracksAndConditions()
+        {
+            //Console.Clear();
             DisplayTracks(ListOfTracksToDisplay);
         }
     }
