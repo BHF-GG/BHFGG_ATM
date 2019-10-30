@@ -24,7 +24,7 @@ namespace BHFGG_ATM.Classes
 
             return velocity;
 
-        }
+        } 
 
         public DateTime ConvertStringTimestampToDateTime(string timestamp)
         {
