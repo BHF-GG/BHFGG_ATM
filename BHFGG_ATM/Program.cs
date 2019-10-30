@@ -16,7 +16,7 @@ namespace BHFGG_ATM
             ATM atm1 = new ATM(5000,300);
             while (true)
             {
-                Thread.Sleep(10);
+                Thread.Sleep(1000);
             }
         }
     }
