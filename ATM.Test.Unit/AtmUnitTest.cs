@@ -226,8 +226,8 @@ namespace ATM.Test.Unit
         }
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001, 3)]
-        [TestCase(500, 900, 10000, 10001, 10000, 10001, 1)]
-        [TestCase(500, 500, 10000, 90000, 10000, 10001, 1)]
+        [TestCase(500, 900, 10000, 10001, 10000, 10001, 2)]
+        [TestCase(500, 500, 10000, 90000, 10000, 10001, 2)]
         public void CheckCondition_CorrectAmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int amountOfConditions)
         {
             var _track3 = new Track { Tag = "3" };
@@ -327,7 +327,7 @@ namespace ATM.Test.Unit
             _fakeFilter.FilterData(_tracks);
 
             var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
-            Assert.That(separationToCheck.Tag1, Is.EqualTo("Track1"));
+            Assert.That(separationToCheck.Tag1 , Is.EqualTo(("Track1")));
             Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
         }
 

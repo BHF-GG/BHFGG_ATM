@@ -35,5 +35,6 @@ namespace BHFGG_ATM.Classes
             ListOfConditionsToDisplay = e.ConditionsChecked;
             DisplayConditions(ListOfConditionsToDisplay);
         }
+
     }
 }

@@ -16,7 +16,7 @@ namespace BHFGG_ATM.Classes
         {
             foreach (var track in trackList)
             {
-                Console.WriteLine($"Tag: {track.Tag}          X-coordinate: {track.PositionX}          Y-coordinate: {track.PositionY}          Altitude: {track.Altitude}          Timestamp: {track.Timestamp}" +
+                Console.WriteLine($"Tag: {track.Tag}         X-coordinate: {track.PositionX}          Y-coordinate: {track.PositionY}          Altitude: {track.Altitude}          Timestamp: {track.Timestamp}" +
                                   $"          Horizontal Velocity: {track.HorizontalVelocity}          Current Compass course: {track.CompassCourse}");
             }
         }
@@ -25,7 +25,6 @@ namespace BHFGG_ATM.Classes
 
         public Display(IFilter filteredData)
         {
-            Console.Clear();
             filteredData.DataFilteredEvent += HandleDataFilteredEvent;
             //ListOfTracksToDisplay = new List<Track>();
         }
@@ -36,5 +35,6 @@ namespace BHFGG_ATM.Classes
             ListOfTracksToDisplay = e.DataFiltered;
             DisplayTracks(ListOfTracksToDisplay);
         }
+
     }
 }
