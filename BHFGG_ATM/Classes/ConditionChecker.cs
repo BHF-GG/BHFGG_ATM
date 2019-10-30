@@ -26,7 +26,7 @@ namespace BHFGG_ATM.Classes
         {
             _minimumAltitude = minimumAltitude;
             _minimumDistance = minimumDistance;
-            _currentConditions = new List<Condition>();
+            _currentConditions = new List<Condition>(); 
             _newConditions = new List<Condition>();
             _conditionId = 0;
             filter.DataFilteredEvent += HandleDataFilteredEvent;
