@@ -28,11 +28,11 @@ namespace BHFGG_ATM.Classes
 
         public void CheckCondition(List<Track> tracks)
         {
-            _conditions = new List<Condition>();
+            //_conditions.Clear();
             var validCondition = true;
             foreach (var track in tracks)
             {
-                foreach (var t in tracks.Where(t => !DistanceOk(track, t) && track != t))
+                foreach (var t in tracks.Where(t => !DistanceOk(track, t) && track.Tag != t.Tag))
                 {
                     foreach (var separation in _conditions.Where(condition => condition.Type == "Separation")
                         .Select(condition => (Separation) condition).Where(separation => 
@@ -41,8 +41,14 @@ namespace BHFGG_ATM.Classes
                     {
                         validCondition = false;
                     }
+
                     if (validCondition)
-                        _conditions.Add(new Separation(track, t,++_conditionId, new LogSeparationCondition()));
+                    {
+                        //if (track.Tag == t.Tag)
+                          //  break;
+                        _conditions.Add(new Separation(track, t, ++_conditionId, new LogSeparationCondition()));
+                    }
+                        
                     validCondition = true;
                 }
             }
