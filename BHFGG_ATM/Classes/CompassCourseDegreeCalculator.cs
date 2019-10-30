@@ -13,14 +13,19 @@ namespace BHFGG_ATM.Classes
     {
         public double CalculateCompassCourse(double oldPointX, double oldPointY, double newPointX, double newPointY)
         {
-            
-            double course = Math.Atan2(newPointX - oldPointX, newPointY - oldPointY);
+            double radians2degree = 180 / Math.PI;
 
-            // convert to 0-360 compass degrees, North = 0
-            course = (450 - (int)course) % 359;
+            double dy = newPointY - oldPointY;
+            double dx = newPointX - oldPointX;
+
+            double course = Math.Atan2(dy, dx) * radians2degree;
+
+            if (course < 0)
+            {
+                course += 360;
+            }
 
             return course;
         }
-        
     }
 }
