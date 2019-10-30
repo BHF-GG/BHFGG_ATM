@@ -42,6 +42,8 @@ namespace BHFGG_ATM.Classes
         {
             base.DisplayTracksAndConditions();
             DisplayConditions(ListOfConditionsToDisplay);
+            Console.Clear();
         }
+
     }
 }

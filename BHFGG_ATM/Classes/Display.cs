@@ -12,12 +12,15 @@ namespace BHFGG_ATM.Classes
     {
         public List<Track> ListOfTracksToDisplay;// { get; set; }
 
+        public DateTime dt;
+
         public void DisplayTracks(List<Track> trackList)
         {
             foreach (var track in trackList)
             {
+                dt = new VelocityCalculator().ConvertStringTimestampToDateTime(track.Timestamp);
                 Console.WriteLine(
-                    $"Tag: {track.Tag}\t PositionXY: ({track.PositionX}\t {track.PositionY})\t Altitude: {track.Altitude} m\t Timestamp: {track.Timestamp}\t " +
+                    $"Tag: {track.Tag}\t PositionXY: ({track.PositionX}, {track.PositionY})\t Altitude: {track.Altitude} m\t Timestamp: {dt}\t " +
                     $"Horizontal Velocity: {track.HorizontalVelocity} m/s\t Current compass course: {track.CompassCourse} degrees");
             }
         }
@@ -41,7 +44,6 @@ namespace BHFGG_ATM.Classes
 
         protected virtual void DisplayTracksAndConditions()
         {
-            //Console.Clear();
             DisplayTracks(ListOfTracksToDisplay);
         }
     }
