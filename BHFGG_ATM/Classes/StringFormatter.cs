@@ -14,23 +14,22 @@ namespace BHFGG_ATM.Classes
     
     public class StringFormatter : IStringFormatter
     {
-        #region Event receiver
-
-        public List<string> CurrentTransponderData { get; set; }
-
-        private ITransponderReceiver _receiver;
         private ICompassCourseCalculator _courseCalculator;
         private IVelocityCalculator _velocityCalculator;
 
-
-        public StringFormatter(ITransponderReceiver transponderReceiver,ICompassCourseCalculator courseCalculator, IVelocityCalculator velocityCalculator)
-        { 
-            _receiver = transponderReceiver;
+        public StringFormatter(ITransponderReceiver transponderReceiver, ICompassCourseCalculator courseCalculator, IVelocityCalculator velocityCalculator)
+        {
             transponderReceiver.TransponderDataReady += HandleTransponderDataEvent;
-                
+
             _courseCalculator = courseCalculator;
             _velocityCalculator = velocityCalculator;
+
         }
+
+        #region Event receiver
+
+        
+        public List<string> CurrentTransponderData { get; set; }
 
         private void HandleTransponderDataEvent(object sender, RawTransponderDataEventArgs e)
         {
@@ -87,7 +86,5 @@ namespace BHFGG_ATM.Classes
 
 
         #endregion
-
-
     }
 }

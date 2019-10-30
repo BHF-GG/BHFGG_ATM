@@ -645,7 +645,7 @@ namespace ATM.Test.Unit
             _uut.FormatData(testData1);
             //Act:
             _uut.FormatData(testData1);
-
+            
             //Assert:
             Assert.That(_receivedEventArgs, Is.Not.Null);
         }
