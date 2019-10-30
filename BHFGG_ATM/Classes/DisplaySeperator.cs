@@ -44,5 +44,6 @@ namespace BHFGG_ATM.Classes
             DisplayConditions(ListOfConditionsToDisplay);
             Console.Clear();
         }
+
     }
 }

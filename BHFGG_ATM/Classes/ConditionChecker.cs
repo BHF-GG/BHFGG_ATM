@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using BHFGG_ATM.EventArgClasses;
@@ -14,46 +15,57 @@ namespace BHFGG_ATM.Classes
         private int _minimumAltitude;
         private int _conditionId;
 
-        private List<Condition> _conditions;
+        private List<Track> _tracks;
+        private List<Condition> _currentConditions;
+        private List<Condition> _newConditions;
+
+
         public event EventHandler<ConditionCheckedEventArgs> ConditionsCheckedEvent;
 
         public ConditionChecker(int minimumDistance, int minimumAltitude, IFilter filter)
         {
             _minimumAltitude = minimumAltitude;
             _minimumDistance = minimumDistance;
-            _conditions = new List<Condition>();
+            _currentConditions = new List<Condition>();
+            _newConditions = new List<Condition>();
             _conditionId = 0;
             filter.DataFilteredEvent += HandleDataFilteredEvent;
         }
 
-        public void CheckCondition(List<Track> tracks)
+        public void CheckCondition(List<Track> tracks= null)
         {
-            //_conditions.Clear();
-            var validCondition = true;
+            if (tracks != null)
+                _tracks = tracks;
+            GetConditions();
+
+            ValidateConditions();
+            
+            OnConditionCheckedEvent(new ConditionCheckedEventArgs{ConditionsChecked = _currentConditions});
+        }
+        /*
+        public void CheckConditions(List<Track> tracks)
+        {
+            _newConditions.Clear();
             foreach (var track in tracks)
             {
-                foreach (var t in tracks.Where(t => !DistanceOk(track, t) && track.Tag != t.Tag))
+                foreach (var t in tracks)
                 {
-                    foreach (var separation in _conditions.Where(condition => condition.Type == "Separation")
-                        .Select(condition => (Separation) condition).Where(separation => 
-                            ((separation.Tag1 == track.Tag || separation.Tag2 == track.Tag) &&
-                             (separation.Tag1 == t.Tag || separation.Tag2 == t.Tag))))
+                    if (track.Tag != t.Tag)
                     {
-                        validCondition = false;
+                        if (!DistanceOk(track, t))
+                        {
+                            foreach (var cond in _currentConditions)
+                            {
+                                var s = (Separation) cond;
+                                if (!(track.Tag == s.Tag1 || track.Tag == s.Tag2) && (t.Tag == s.Tag1 ||t.Tag == s.Tag2))
+                                    _newConditions.Add(new Separation(track,t,1,new LogSeparationCondition(),true));
+                            }
+                        }
                     }
-
-                    if (validCondition)
-                    {
-                        //if (track.Tag == t.Tag)
-                          //  break;
-                        _conditions.Add(new Separation(track, t, ++_conditionId, new LogSeparationCondition()));
-                    }
-                        
-                    validCondition = true;
                 }
             }
-            OnConditionCheckedEvent(new ConditionCheckedEventArgs{ConditionsChecked = _conditions});
-        }
+            OnConditionCheckedEvent(new ConditionCheckedEventArgs { ConditionsChecked = _newConditions });
+        }*/
 
         private bool DistanceOk(Track t1, Track t2)
         {
@@ -91,7 +103,75 @@ namespace BHFGG_ATM.Classes
 
         private void HandleDataFilteredEvent(object s, DataFilteredEventArgs e)
         {
-            CheckCondition(e.DataFiltered);
+            _tracks = e.DataFiltered;
+            CheckCondition();
         }
+
+
+        #region CheckConditionHelp
+
+        private void GetConditions()
+        {
+            _newConditions.Clear();
+            var validCondition = true;
+            foreach (var track in _tracks)
+            {
+                foreach (var t in _tracks.Where(t => !DistanceOk(track, t) && track.Tag != t.Tag))
+                {
+                    if (!CheckTracks(track,t))
+                        _newConditions.Add(new Separation(track, t, 0, new LogSeparationCondition()));
+                }
+            }
+        }
+
+        private bool CheckTracks(Track t1, Track t2)
+        {
+            foreach (var newC in _newConditions)
+            {
+                var newS = (Separation) newC;
+                if ((newS.Tag1 == t1.Tag || newS.Tag2 == t2.Tag) && (newS.Tag2 == t1.Tag || newS.Tag2 == t2.Tag))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void ValidateConditions()
+        {
+            foreach (var currentC in _currentConditions)
+            {
+                bool remove = false;
+                var currentS = (Separation)currentC;
+                foreach (var newC in _newConditions)
+                {
+                    var newS = (Separation)newC;
+                    if (((newS.Tag1 == currentS.Tag1) || (newS.Tag1 == currentS.Tag2)) &&
+                        ((newS.Tag2 == currentS.Tag1) || (newS.Tag2 == currentS.Tag2)))
+                    {
+                        _newConditions.Remove(newC);
+                        remove = false;
+                        //break;
+                    }
+                    else
+                    {
+                        remove = true;
+                    }
+                }
+
+                if (remove)
+                {
+                    _currentConditions.Remove(currentC);
+                }
+            }
+
+            foreach (var newC in _newConditions)
+            {
+                var newS = (Separation)newC;
+                _currentConditions.Add(new Separation(newS.Track1, newS.Track2, ++_conditionId, new LogSeparationCondition(), true));
+            }
+        }
+
+        #endregion
+
     }
 }
