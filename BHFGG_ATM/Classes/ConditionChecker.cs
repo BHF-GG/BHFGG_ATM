@@ -16,7 +16,7 @@ namespace BHFGG_ATM.Classes
         private int _conditionId;
 
         private List<Track> _tracks;
-        private List<Condition> _currentConditions;
+        public  List<Condition> _currentConditions { get; private set; }
         private List<Condition> _newConditions;
         private List<Condition> _tempCurrentCondition;
         private List<Condition> _tempCondition;
@@ -52,7 +52,7 @@ namespace BHFGG_ATM.Classes
             
             OnConditionCheckedEvent(new ConditionCheckedEventArgs{ConditionsChecked = _currentConditions});
         }
-        
+
         private bool DistanceOk(Track t1, Track t2)
         {
             if (GetAltitudeDelta(t1, t2) > _minimumAltitude)

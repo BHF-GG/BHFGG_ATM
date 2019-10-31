@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ATM.Test.Unit.Fakes;
 using BHFGG_ATM.Classes;
 using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
@@ -170,7 +169,7 @@ namespace ATM.Test.Unit
         private Track _track2;
         private List<Track> _tracks;
         //private IFilter _testFilterSource;
-        private readonly IFilter _fakeFilter = new FakeFilter();
+        private readonly IFilter _fakeFilter = Substitute.For<IFilter>();
 
         [SetUp]
         public void SetUp()
@@ -189,6 +188,34 @@ namespace ATM.Test.Unit
 
             _uut.ConditionsCheckedEvent +=
                 (o, args) => { _receivedEventArgs = args; };
+        }
+
+        [Test]
+        public void CheckCondition_removesDuplicates()
+        {
+            _tracks = new List<Track>(20);
+            for (int i = 0; i < 10; i++)
+            {
+                _tracks.Add(new Track() { PositionX = i * 1000, PositionY = i * 1500, Tag = i.ToString() });
+            }
+
+            _track1.Tag = "0";
+            _track2.Tag = "1";
+            _tracks.Add(_track1);
+            _tracks.Add(_track2);
+            _track2.Tag = "1";
+            _fakeFilter.DataFilteredEvent += Raise.EventWith(new DataFilteredEventArgs() {DataFiltered = _tracks});
+            
+            int numberOfDuplicates = 0;
+            foreach (var t in _uut._currentConditions)
+            {
+                var nt = (Separation) t;
+                if (nt.Tag1 == "1" && nt.Tag2 == "1")
+                    numberOfDuplicates++;
+            }
+
+            // Mangler noget her
+           Assert.That(numberOfDuplicates, Is.EqualTo(0));
         }
 
         [Test]
@@ -309,27 +336,7 @@ namespace ATM.Test.Unit
             Assert.That(_uut.GetDistance(_track1, _track2).Equals(result));
         }
 
-        //[TestCase(400, 500, 10000, 10001, 10000, 10001)]
-        //public void DataFilteredEvent_Received(double A1, double A2, double x1, double x2, double y1, double y2)
-        //{
-        //    _track1.Tag = "Track1";
-        //    _track2.Tag = "Track2";
-        //    _track1.Altitude = A1;
-        //    _track2.Altitude = A2;
-        //    _track1.PositionX = x1;
-        //    _track1.PositionY = y1;
-        //    _track2.PositionX = x2;
-        //    _track2.PositionY = y2;
 
-        //    _tracks.Add(_track1);
-        //    _tracks.Add(_track2);
-
-        //    _fakeFilter.FilterData(_tracks);
-
-        //    var separationToCheck = (Separation)_receivedEventArgs.ConditionsChecked.ElementAt(0);
-        //    Assert.That(separationToCheck.Tag1 , Is.EqualTo(("Track1")));
-        //    Assert.That(separationToCheck.Tag2, Is.EqualTo("Track2"));
-        //}
 
     }
 
