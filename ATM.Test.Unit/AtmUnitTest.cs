@@ -226,8 +226,8 @@ namespace ATM.Test.Unit
         }
 
         [TestCase(400, 500, 10000, 10001, 10000, 10001, 3)]
-        [TestCase(500, 900, 10000, 10001, 10000, 10001, 2)]
-        [TestCase(500, 500, 10000, 90000, 10000, 10001, 2)]
+        [TestCase(500, 900, 10000, 10001, 10000, 10001, 1)]
+        [TestCase(500, 500, 10000, 90000, 10000, 10001, 1)]
         public void CheckCondition_CorrectAmountOfConditionsGenerated(double A1, double A2, double x1, double x2, double y1, double y2, int amountOfConditions)
         {
             var _track3 = new Track { Tag = "3" };
@@ -569,6 +569,7 @@ namespace ATM.Test.Unit
 
 
             _uut.FilterData(_tracklist);
+            _uut.FilterData(_tracklist); // Added to test, that Tracks doesn't get duplicated.
 
             Assert.That(_uut.CurrentListOfTracks.Count, Is.EqualTo(2));
         }

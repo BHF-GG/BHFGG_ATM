@@ -17,7 +17,7 @@ namespace BHFGG_ATM.Classes
         {
             LogCondition.LogCondition(this);
         }
-        protected virtual void LogOnDestruction()
+        public virtual void LogOnDestruction()
         {
             LogCondition.LogEndCondition(this);
         }

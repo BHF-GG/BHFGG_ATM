@@ -36,11 +36,12 @@ namespace BHFGG_ATM.Classes
             if (_logged)
                 LogOnConstruction();
         }
-
+        
         ~Separation()
         {
             if (_logged)
                 LogOnDestruction();
         }
+        
     }
 }
