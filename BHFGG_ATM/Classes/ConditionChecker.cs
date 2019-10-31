@@ -53,97 +53,6 @@ namespace BHFGG_ATM.Classes
             OnConditionCheckedEvent(new ConditionCheckedEventArgs{ConditionsChecked = _currentConditions});
         }
         
-
-        //public void CheckCondition(List<Track> tracks = null)
-        //{
-        //    if (tracks != null)
-        //        _tracks = tracks;
-
-        //    // Only for debugging purpose
-        //    if (_tracks.Count > 1)
-        //    { Console.WriteLine("1");}
-
-        //    _newConditions.Clear();
-
-        //    foreach (var t in _tracks)
-        //    {
-        //        for (int i = _tracks.IndexOf(t); i < _tracks.Count; ++i)
-        //        {
-        //            if ((!DistanceOk(t, _tracks.ElementAt(i))) && (t.Tag != _tracks.ElementAt(i).Tag))
-        //                _newConditions.Add(new Separation(t, _tracks.ElementAt(i), 0, new LogSeparationCondition()));
-        //        }
-        //    }
-
-        //    _newToDelete.Clear();
-        //    _currentToDelete.Clear();
-        //    foreach (var currentC in _currentConditions)
-        //    {
-        //        bool keep = false;
-        //        var currentS = (Separation) currentC;
-        //        foreach (var newC in _newConditions)
-        //        {
-        //            var newS = (Separation) newC;
-        //            if (((newS.Tag1 == currentS.Tag1) || (newS.Tag1 == currentS.Tag2)) &&
-        //                ((newS.Tag2 == currentS.Tag1) || (newS.Tag2 == currentS.Tag2)))
-        //            {
-        //                _newToDelete.Add(_newConditions.IndexOf(newC));
-        //                keep = true;
-        //                break;
-        //            }
-        //            else
-        //            {
-        //                keep = false;
-        //            }
-        //        }
-        //        if (!keep)
-        //            _currentToDelete.Add(_currentConditions.IndexOf(currentC));
-        //    }
-
-        //    _newToDelete.Sort((x, y) => y.CompareTo(x));
-        //    _newToDelete.Reverse();
-        //    _currentToDelete.Sort((x, y) => y.CompareTo(x));
-        //    _currentToDelete.Reverse();
-        //    /*
-        //    foreach (var i in _newToDelete)
-        //    {
-        //        _newConditions.RemoveAt(_newToDelete.ElementAt(i));
-        //    }*/
-        //    if (_newConditions.Count > 0)
-        //    {
-        //        for (int i = 0; i < _newToDelete.Count; i++)
-        //        {
-        //            if (_newConditions.Count < _newToDelete[i])
-        //                break;
-        //            _newConditions.RemoveAt(_newToDelete[i]);
-        //        }
-        //    }
-            
-        //    /*
-        //    foreach (var i in _currentToDelete)
-        //    {
-        //        _currentConditions.RemoveAt(_currentToDelete.ElementAt(i));
-        //    }
-        //    */
-        //    if (_currentConditions.Count>0)
-        //    {
-        //        for (int i = 0; i < _currentToDelete.Count; i++)
-        //        {
-        //            if (_currentConditions.Count < _currentToDelete[i])
-        //                break;
-        //            _currentConditions[_currentToDelete[i]].LogOnDestruction();
-        //            _currentConditions.RemoveAt(_currentToDelete[i]);
-        //        }
-        //    }
-
-        //    foreach (var newC in _newConditions)
-        //    {
-        //        var newS = (Separation)newC;
-        //        _currentConditions.Add(new Separation(newS.Track1,newS.Track2,++_conditionId,new LogSeparationCondition(),true));
-        //    }
-
-        //    OnConditionCheckedEvent(new ConditionCheckedEventArgs { ConditionsChecked = _currentConditions });
-        //}
-
         private bool DistanceOk(Track t1, Track t2)
         {
             if (GetAltitudeDelta(t1, t2) > _minimumAltitude)
@@ -183,9 +92,6 @@ namespace BHFGG_ATM.Classes
             _tracks = e.DataFiltered;
             CheckCondition();
         }
-
-
-        //#region CheckConditionHelp
 
         private void GetConditions()
         {
