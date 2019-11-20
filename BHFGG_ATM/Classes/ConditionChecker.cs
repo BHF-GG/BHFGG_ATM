@@ -1,11 +1,8 @@
-﻿using System;
+﻿using BHFGG_ATM.EventArgClasses;
+using BHFGG_ATM.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using BHFGG_ATM.EventArgClasses;
-using BHFGG_ATM.Interfaces;
 
 namespace BHFGG_ATM.Classes
 {
@@ -16,7 +13,7 @@ namespace BHFGG_ATM.Classes
         private int _conditionId;
 
         private List<Track> _tracks;
-        public  List<Condition> _currentConditions { get; private set; }
+        public List<Condition> _currentConditions { get; private set; }
         private List<Condition> _newConditions;
         private List<Condition> _tempCurrentCondition;
         private List<Condition> _tempCondition;
@@ -30,7 +27,7 @@ namespace BHFGG_ATM.Classes
         {
             _minimumAltitude = minimumAltitude;
             _minimumDistance = minimumDistance;
-            _currentConditions = new List<Condition>(); 
+            _currentConditions = new List<Condition>();
             _newConditions = new List<Condition>();
             _newToDelete = new List<int>();
             _currentToDelete = new List<int>();
@@ -41,16 +38,16 @@ namespace BHFGG_ATM.Classes
             _conditionId = 0;
             filter.DataFilteredEvent += HandleDataFilteredEvent;
         }
-        
-        public void CheckCondition(List<Track> tracks= null)
+
+        public void CheckCondition(List<Track> tracks = null)
         {
             if (tracks != null)
                 _tracks = tracks;
             GetConditions();
 
             ValidateConditions();
-            
-            OnConditionCheckedEvent(new ConditionCheckedEventArgs{ConditionsChecked = _currentConditions});
+
+            OnConditionCheckedEvent(new ConditionCheckedEventArgs { ConditionsChecked = _currentConditions });
         }
 
         private bool DistanceOk(Track t1, Track t2)
@@ -67,7 +64,7 @@ namespace BHFGG_ATM.Classes
         {
             double delta = t1.Altitude - t2.Altitude;
 
-            if (delta <0)
+            if (delta < 0)
                 delta = delta * (-1);
             return Convert.ToInt32(delta);
         }
@@ -84,7 +81,7 @@ namespace BHFGG_ATM.Classes
 
         private void OnConditionCheckedEvent(ConditionCheckedEventArgs e)
         {
-            ConditionsCheckedEvent?.Invoke(this,e);
+            ConditionsCheckedEvent?.Invoke(this, e);
         }
 
         private void HandleDataFilteredEvent(object s, DataFilteredEventArgs e)
@@ -101,7 +98,7 @@ namespace BHFGG_ATM.Classes
             {
                 foreach (var t in _tracks.Where(t => !DistanceOk(track, t) && track.Tag != t.Tag))
                 {
-                    if (!CheckTracks(track,t))
+                    if (!CheckTracks(track, t))
                         _newConditions.Add(new Separation(track, t, 0, new LogSeparationCondition()));
                 }
             }
@@ -111,14 +108,14 @@ namespace BHFGG_ATM.Classes
         {
             foreach (var newC in _newConditions)
             {
-                var newS = (Separation) newC;
+                var newS = (Separation)newC;
                 if ((newS.Tag1 == t1.Tag || newS.Tag1 == t2.Tag) && (newS.Tag2 == t1.Tag || newS.Tag2 == t2.Tag))
                     return true;
             }
 
             return false;
         }
-        
+
         private void ValidateConditions()
         {
             _tempCurrentCondition.Clear();

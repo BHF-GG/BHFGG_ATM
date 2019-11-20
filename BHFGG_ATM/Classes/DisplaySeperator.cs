@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BHFGG_ATM.EventArgClasses;
+﻿using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace BHFGG_ATM.Classes
 {
@@ -16,14 +13,14 @@ namespace BHFGG_ATM.Classes
         {
             foreach (var track in conditionList)
             {
-                Separation sep = (Separation) track;
+                Separation sep = (Separation)track;
                 Console.WriteLine(
                     $"--------------------------------------------------------------\n---------------------------------------------------------------------\nID: {sep.Id}\t Condition: {sep.Type}\t Timestamp: {sep.Timestamp} ----- {sep.Type} betweeen Tag1: {sep.Tag1} Tag2: {sep.Tag2}");
             }
         }
 
         public DisplaySeparator(IFilter filteredData, IConditionChecker conditionData)
-            :  base(filteredData)
+            : base(filteredData)
         {
             ListOfConditionsToDisplay = new List<Condition>();
             conditionData.ConditionsCheckedEvent += HandleConditionCheckedEvent;

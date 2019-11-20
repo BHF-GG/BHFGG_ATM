@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BHFGG_ATM.Interfaces;
+﻿using BHFGG_ATM.Interfaces;
+using System;
 
 namespace BHFGG_ATM.Classes
 {

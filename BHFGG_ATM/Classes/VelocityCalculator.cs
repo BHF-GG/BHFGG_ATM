@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BHFGG_ATM.Interfaces;
+using System;
 using System.IO;
-using BHFGG_ATM.Interfaces;
 
 namespace BHFGG_ATM.Classes
 {
@@ -24,7 +24,7 @@ namespace BHFGG_ATM.Classes
 
             return velocity;
 
-        } 
+        }
 
         public DateTime ConvertStringTimestampToDateTime(string timestamp)
         {
@@ -36,12 +36,12 @@ namespace BHFGG_ATM.Classes
             int second = System.Convert.ToInt32(timestamp.Substring(12, 2));
             int millisecond = System.Convert.ToInt32(timestamp.Substring(14, 3));
 
-            if(0 <= year
-                            && 1 <= month && month <= 12 
-                            && 1 <= day && day <= 31 
-                            && 0 <= hour && hour <= 23 
-                            && 0 <= minute && minute <= 59 
-                            && 0 <= second && second <= 59 
+            if (0 <= year
+                            && 1 <= month && month <= 12
+                            && 1 <= day && day <= 31
+                            && 0 <= hour && hour <= 23
+                            && 0 <= minute && minute <= 59
+                            && 0 <= second && second <= 59
                             && 0 <= millisecond && millisecond <= 999)
             {
                 DateTime date = new DateTime(year, month, day, hour, minute, second, millisecond);

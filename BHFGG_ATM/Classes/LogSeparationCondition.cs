@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BHFGG_ATM.Interfaces;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BHFGG_ATM.Interfaces;
 
 
 namespace BHFGG_ATM.Classes
@@ -18,7 +13,7 @@ namespace BHFGG_ATM.Classes
         }
         public void LogCondition(Condition c)
         {
-            Separation sep = (Separation) c;
+            Separation sep = (Separation)c;
             CreateFolder();
             using (System.IO.StreamWriter file = File.AppendText(@"C:\Logs\SeparationLog.txt"))
             {

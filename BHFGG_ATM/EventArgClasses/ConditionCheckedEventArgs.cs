@@ -1,9 +1,6 @@
-﻿using System;
+﻿using BHFGG_ATM.Classes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BHFGG_ATM.Classes;
 
 namespace BHFGG_ATM.EventArgClasses
 {

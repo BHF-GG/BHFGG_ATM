@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BHFGG_ATM.EventArgClasses;
+﻿using BHFGG_ATM.EventArgClasses;
 using BHFGG_ATM.Interfaces;
+using System;
+using System.Collections.Generic;
 
 namespace BHFGG_ATM.Classes
 {
@@ -34,7 +31,7 @@ namespace BHFGG_ATM.Classes
         {
             //Make an empty current list here??????
             CurrentListOfTracks.Clear();
-   
+
             //Filtering data here
             foreach (var track in trackList)
             {

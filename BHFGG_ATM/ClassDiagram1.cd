@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BHFGG_ATM.Classes.AirspaceFilter" BaseTypeListCollapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAEAAgBIQAAAABAAAAQAAAAAAAEAAAQAAAA=</HashCode>
+      <FileName>Classes\AirspaceFilter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.ATM">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAgAIAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\ATM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.CompassCourseDegreeCalculator" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\CompassCourseDegreeCalculator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.Condition">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAQAAAAAAAAAAAACAAAEAAAAAAAAIQAAAAAAAAA=</HashCode>
+      <FileName>Classes\Condition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.ConditionChecker" BaseTypeListCollapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCAAAIBADAAQAAAIJAAAGCIAEABAAACAgAAAAAEAAAE=</HashCode>
+      <FileName>Classes\ConditionChecker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.Display">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAiAACAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Display.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.DisplaySeparator">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Classes\DisplaySeperator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.LogSeparationCondition" BaseTypeListCollapsed="true">
+    <Position X="15" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAAABAAAA=</HashCode>
+      <FileName>Classes\LogSeparationCondition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.Separation">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAACQAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Separation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.StringFormatter" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAgCEAIABABAAAAAAQAAA=</HashCode>
+      <FileName>Classes\StringFormatter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.Track">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAgAAgAAAgAAACgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Track.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.Classes.VelocityCalculator" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAABA=</HashCode>
+      <FileName>Classes\VelocityCalculator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BHFGG_ATM.EventArgClasses.ConditionCheckedEventArgs">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventArgClasses\ConditionCheckedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.EventArgClasses.DataFilteredEventArgs">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>EventArgClasses\DataFilteredEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.EventArgClasses.DataFormattedEventArgs">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventArgClasses\DataFormattedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BHFGG_ATM.Program">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BHFGG_ATM.Interfaces.ICompassCourseCalculator">
+    <Position X="6" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ICompassCourseCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.IConditionChecker">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IConditionChecker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.IDisplay">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IDisplay.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.IFilter">
+    <Position X="11.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IFilter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.ILogCondition">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ILogCondition.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.IStringFormatter">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgCAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IStringFormatter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.ITransponderReceiver">
+    <Position X="9.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\ITransponderReceiver.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BHFGG_ATM.Interfaces.IVelocityCalculator">
+    <Position X="11.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAABA=</HashCode>
+      <FileName>Interfaces\IVelocityCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
